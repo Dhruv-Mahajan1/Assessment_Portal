@@ -11,7 +11,7 @@ from studentResponse.models import studentResponse
 from quizes.models import Question
 
 from students.serializer import studentDetailsSerializer
-from studentResponse.serializers import studentResponseSerializer
+from studentResponse.serializer import studentResponseSerializer
 from api.serializers import questionSerializer
 
 # Create your views here.
