@@ -9,4 +9,5 @@ urlpatterns = [
     path('getquizquestions/<int:quizId>/',views.getQuizQuestions),
     path('api/student/', include("students.urls")),
     path('accounts/', include('allauth.urls')),
+    path('response/', include("studentResponse.urls")),
 ]
