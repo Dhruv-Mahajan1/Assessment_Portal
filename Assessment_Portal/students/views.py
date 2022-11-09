@@ -8,9 +8,11 @@ from rest_framework.decorators import api_view
 
 from students.models import Student
 from studentResponse.models import studentResponse
+from studentResponse.models import peerResponse
 from quizes.models import Question
 
 from students.serializer import studentDetailsSerializer
+from studentResponse.serializer import peerResponseSerializer
 from studentResponse.serializer import studentResponseSerializer
 from api.serializers import questionSerializer
 
@@ -56,6 +58,18 @@ class getQuizScore(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = studentResponseSerializer(attemptedQuestions,many=True)
+        return Response(serializer.data)
+
+
+class getPeerResponse(APIView):
+
+    def get(self, request, studentId, quizId):
+        try:
+            peerRes = peerResponse.objects.filter(checkedByStudentId = studentId, quizId = quizId)
+        except studentResponse.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = peerResponseSerializer(peerRes,many=True)
         return Response(serializer.data)
 
 

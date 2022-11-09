@@ -5,5 +5,6 @@ urlpatterns = [
     path('getCumulativeScore/<str:studentId>/',views.GetCumulativeScore.as_view(),name="get-cumulative-score"),
     path('studentDetails/<str:studentId>/', views.StudentDetails.as_view(), name="student-details"), 
     path('getQuizScore/<int:quizId>/<str:studentId>/', views.getQuizScore.as_view(), name="student-details"),
+    path('getPeerResponse/<int:quizId>/<str:studentId>/', views.getPeerResponse.as_view(), name="peer-details"),
     # path('doSelfAssessment/<int:quizId>/<str:studentId>/', views.doSelfAssessment.as_view(), name="student-details"),   
 ]
