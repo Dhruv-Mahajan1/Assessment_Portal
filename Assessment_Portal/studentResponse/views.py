@@ -16,6 +16,7 @@ from .serializer import studentResponseSerializer
 from .serializer import peerResponseSerializer
 from rest_framework.views import APIView
 
+from .hashing import hashIndexes
 # Create your views here.
 def export(request):
     studentResResource = studentResponseResource()
@@ -76,5 +77,24 @@ class putPeerResponse(APIView):
              serializer.save()
              return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class doStudentMapping(APIView):
+    
+    def get(self, request, quizId):
+        try:
+            Students=studentResponse.objects.filter(quizId=quizId).values_list('studentRollNo', flat=True).distinct()    
+        except studentResponse.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+            
+        StudentMapping=hashIndexes(list(Students))
+        for checkByStudentId,student in StudentMapping.items():
+            questions=peerResponse.objects.filter(studentRollNo=student , quizId=quizId)
+            questions.update(checkedByStudentId=checkByStudentId)
+            
+        return Response(StudentMapping)
+
+
 
 

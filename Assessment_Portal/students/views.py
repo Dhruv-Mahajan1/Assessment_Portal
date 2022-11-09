@@ -60,22 +60,15 @@ class getQuizScore(APIView):
 
 
 
-# class doSelfAssessment(APIView):
-#     permission_classes = (IsAuthenticated,)
-#     def post(self, request,  quizId,studentId):
-#         data=request.data
-#         try:
-#             attemptedQuestions=studentResponse.objects.filter(studentRollNo=studentId , quizId=quizId)
-#         except studentResponse.DoesNotExist:
-#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-#         serializer = studentResponseSerializer(attemptedQuestions, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         return Response(request.data)
+class getStudents(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request,quizId):
+        try:
+            Students=studentResponse.objects.filter(quizId=quizId).values_list('studentRollNo', flat=True).distinct()    
+        except studentResponse.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(Students)
 
 
-    #    return "meowmeow"
 
