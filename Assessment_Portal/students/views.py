@@ -1,4 +1,18 @@
 from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+
+from students.models import Student
+from studentResponse.models import studentResponse
+from quizes.models import Question
+
+from students.serializer import studentDetailsSerializer
+from studentResponse.serializer import studentResponseSerializer
+from api.serializers import questionSerializer
 
 # Create your views here.
 
@@ -46,6 +60,7 @@ class getQuizScore(APIView):
 
 
 
+
 class getStudents(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request,quizId):
@@ -54,5 +69,6 @@ class getStudents(APIView):
         except studentResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(Students)
+
 
 

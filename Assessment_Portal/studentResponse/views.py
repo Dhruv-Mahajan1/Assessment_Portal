@@ -15,6 +15,7 @@ from django.contrib import messages
 from .serializer import studentResponseSerializer
 from .serializer import peerResponseSerializer
 from rest_framework.views import APIView
+
 from .hashing import hashIndexes
 # Create your views here.
 def export(request):
@@ -77,6 +78,7 @@ class putPeerResponse(APIView):
              return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class doStudentMapping(APIView):
     
     def get(self, request, quizId):
@@ -92,6 +94,7 @@ class doStudentMapping(APIView):
             questions.update(checkedByStudentId=checkByStudentId)
             
         return Response(StudentMapping)
+
 
 
 
