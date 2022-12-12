@@ -1,13 +1,8 @@
 
 from django.urls import path, include
-from . import views
 urlpatterns = [
-    path('getquiz/',views.getQuiz),
-    path('addquiz/',views.addQuiz),
-    path('addquestion/',views.addQuestion),
-    path('getquestion/<int:questionId>/',views.getQuestion),
-    path('getquizquestions/<int:quizId>/',views.getQuizQuestions),
+    path('api/quiz/', include("quizes.urls")),
+    path('api/teacher/', include("teachers.urls")),
     path('api/student/', include("students.urls")),
     path('accounts/', include('allauth.urls')),
-    path('response/', include("studentResponse.urls")),
 ]
