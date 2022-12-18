@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'studentResponse',
     'import_export',
     'user',
+    'teachers',
 
     'allauth',
     'allauth.account',
