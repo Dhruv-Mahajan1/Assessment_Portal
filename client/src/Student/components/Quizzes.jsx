@@ -2,70 +2,57 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import { mockDataTeam } from "../data/mockData";
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../components/Header";
+import {React, useState, useEffect} from 'react';
+
+
 
 const Quizzes = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+
+  const [Student,setStudent]=useState([]);
+  
+  useEffect(()=>{
+fetch("http://127.0.0.1:8000/api/student/studentDetails/B20EE021/",{
+method:"GET",
+headers:{
+  "Content-type":"application/json"
+}
+}).then(resp=>resp.json)
+.then(resp=>setStudent(resp))
+.catch(error=>console.log(error))
+
+  },[])
+
+
   const columns = [
-    { field: "id", headerName: "ID" },
+    { field: "StudentRollNo", headerName: "Roll Number" },
     {
-      field: "name",
+      field: "Name",
       headerName: "Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
-    {
-      field: "age",
-      headerName: "Marks",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "accessLevel",
-      headerName: "Access Level",
-      flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box
-            width="60%"
-            m="0 auto"
-            p="5px"
-            display="flex"
-            justifyContent="center"
-            backgroundColor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : access === "manager"
-                ? colors.greenAccent[700]
-                : colors.greenAccent[700]
-            }
-            borderRadius="4px"
-          >
-            {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-            {access === "manager" && <SecurityOutlinedIcon />}
-            {access === "user" && <LockOpenOutlinedIcon />}
-            <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-              {access}
-            </Typography>
-          </Box>
-        );
-      },
-    },
+    // {
+    //   field: "age",
+    //   headerName: "Name",
+    //   type: "number",
+    //   headerAlign: "left",
+    //   align: "left",
+    // },
+    // {
+    //   field: "phone",
+    //   headerName: "Phone Number",
+    //   flex: 1,
+    // },
+    // {
+    //   field: "email",
+    //   headerName: "Email",
+    //   flex: 1,
+    // },
+    
   ];
 
   return (
@@ -100,7 +87,7 @@ const Quizzes = () => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataTeam} columns={columns} />
+        <DataGrid checkboxSelection rows={Student} columns={columns} />
       </Box>
     </Box>
   );
