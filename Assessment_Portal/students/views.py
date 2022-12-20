@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -10,33 +10,37 @@ from students.models import Student
 from studentResponse.models import studentResponse
 from studentResponse.models import peerResponse
 from quizes.models import Question
+from studentResponse.models import studentResponse,peerResponse
 
+from studentResponse.serializer import peerResponseSerializer,studentResponseSerializer
 from students.serializer import studentDetailsSerializer
 from studentResponse.serializer import peerResponseSerializer
 from studentResponse.serializer import studentResponseSerializer
-from api.serializers import questionSerializer
+from quizes.serializers import questionSerializer
 
+from students.models import studentuser
 # Create your views here.
 
 
 class StudentDetails(APIView):
-    # permission_classes = (IsAuthenticated,)
-    def get(self, request, studentId):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
         try:
-            studentDetails=Student.objects.filter(studentRollNo=studentId)
-        except Student.DoesNotExist:
+            student=studentuser.objects.get(user=request.user)
+        except studentuser.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = studentDetailsSerializer(studentDetails,many=True)
-
+        serializer = studentDetailsSerializer(student)
+        print(serializer.data)
         return Response(serializer.data)
-    
+        
 
 class GetCumulativeScore(APIView):
     permission_classes = (IsAuthenticated,)
-    def get(self, request, studentId):
+    def get(self, request):
         try:
-            attemptedQuestions=studentResponse.objects.filter(studentRollNo=studentId)
+            student=studentuser.objects.get(user=request.user)
+            attemptedQuestions=studentResponse.objects.filter(studentRollNo=student.studentrollno)
         except studentResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -44,16 +48,16 @@ class GetCumulativeScore(APIView):
         score=0
         for i in range(len(serializer.data)):
             score+=serializer.data[i]['selfScore']
-        print(score)
         return Response(score)
 
 
 
 class getQuizScore(APIView):
     permission_classes = (IsAuthenticated,)
-    def get(self, request, quizId,studentId):
+    def get(self, request, quizId):
         try:
-            attemptedQuestions=studentResponse.objects.filter(studentRollNo=studentId , quizId=quizId)
+            student=studentuser.objects.get(user=request.user)
+            attemptedQuestions=studentResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId)
         except studentResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -74,22 +78,39 @@ class getPeerResponse(APIView):
 
 
 
-# class doSelfAssessment(APIView):
-#     permission_classes = (IsAuthenticated,)
-#     def post(self, request,  quizId,studentId):
-#         data=request.data
-#         try:
-#             attemptedQuestions=studentResponse.objects.filter(studentRollNo=studentId , quizId=quizId)
-#         except studentResponse.DoesNotExist:
-#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-#         serializer = studentResponseSerializer(attemptedQuestions, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         return Response(request.data)
+class putSelfResponse(APIView):
+    permission_classes = (IsAuthenticated,)
+    def put(self, request, quizId):
+        newData = request.data
+        try:
+            student=studentuser.objects.get(user=request.user)
+            studRes=studentResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId)
+        except studentResponse.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = studentResponseSerializer(studRes[0], data=newData)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    #    return "meowmeow"
+class putPeerResponse(APIView):
+    permission_classes = (IsAuthenticated,)
+    def put(self, request, quizId):
+        newData = request.data
+        try:
+            student=studentuser.objects.get(user=request.user)
+            studRes=peerResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId)
+
+        except peerResponse.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = peerResponseSerializer(studRes[0], data=newData)
+        if serializer.is_valid():
+             serializer.save()
+             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
