@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from  rest_framework.decorators import api_view
-
+from teachers.models import teacheruser
 from studentResponse.models import studentResponse,peerResponse
 from studentResponse.hashing import hashIndexes
 from quizes.serializers import questionSerializer,quizSerializer
@@ -12,6 +12,13 @@ from quizes.serializers import questionSerializer,quizSerializer
 class getStudents(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request,quizId):
+
+        try:
+            teacher=teacheruser.objects.get(user=request.user)
+
+        except teacheruser.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         try:
             Students=studentResponse.objects.filter(quizId=quizId).values_list('studentRollNo', flat=True).distinct()    
         except studentResponse.DoesNotExist:
@@ -22,6 +29,11 @@ class getStudents(APIView):
 class doStudentMapping(APIView):
     permission_classes = (IsAuthenticated,)
     def get(self, request, quizId):
+        try:
+            teacher=teacheruser.objects.get(user=request.user)
+        except teacheruser.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         try:
             Students=studentResponse.objects.filter(quizId=quizId).values_list('studentRollNo', flat=True).distinct()    
         except studentResponse.DoesNotExist:
@@ -37,7 +49,13 @@ class doStudentMapping(APIView):
 
 class addQuiz(APIView):
     permission_classes = (IsAuthenticated,)
-    def post(self, request, quizId):
+    def post(self, request):
+        
+        try:
+            teacher=teacheruser.objects.get(user=request.user)
+        except teacheruser.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        print("hoii")
         serializer=quizSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -46,8 +64,15 @@ class addQuiz(APIView):
 
 
 class addQuestion(APIView):
+    
     permission_classes = (IsAuthenticated,)
     def post(self, request):
+        
+        try:
+            teacher=teacheruser.objects.get(user=request.user)
+        except teacheruser.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         serializer=questionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
