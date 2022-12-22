@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-1vo0ea1*axgge7k$j09ipxnu3+s=i^bk5=@_(z3lueb4-l&746
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,18 +47,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'django.contrib.sites',
     'rest_framework',
-     "corsheaders",
+    'corsheaders',
     'students',
     'quizes',
     'studentResponse',
     'import_export',
     'user',
     'teachers',
-
+    'oauth2_provider',
+    'social_django',
+    'drf_social_oauth2',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google'
+    'allauth.socialaccount.providers.google',
+    'accounts',
 ]
 SITE_ID = 1
 SOCIALACCOUNT_PROVIDERS = {
@@ -86,7 +89,10 @@ CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:8080",
+    "http://localhost:3000",
+    "http://localhost:8000",
     "http://127.0.0.1:9000",
+    "http://127.0.0.1:3000",
 ]
 
 
@@ -103,6 +109,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -165,9 +173,39 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "user.User"
+# AUTH_USER_MODEL = "accounts.Account"
 
 REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
-   'rest_framework.permissions.AllowAny',
-]
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # django-oauth-toolkit < 1.0.0
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
+        # django-oauth-toolkit >= 1.0.0
+        'drf_social_oauth2.authentication.SocialAuthentication',
+    ],
 }
+
+AUTHENTICATION_BACKENDS = (
+    # Others auth providers (e.g. Facebook, OpenId, etc)
+
+    # Google OAuth2
+    'social_core.backends.google.GoogleOAuth2',
+
+    # drf-social-oauth2
+    'drf_social_oauth2.backends.DjangoOAuth2',
+
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+)
+SOCIAL_AUTH_USER_FIELDS=['email','first_name','username','password']
+# Google configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "361102340568-4g5oqh4fu0vr5aglh6apigtegs0joelv.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]

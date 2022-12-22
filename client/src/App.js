@@ -5,8 +5,10 @@ import Self from "./Student/components/Self";
 import Calender from "./Student/components/Calender";
 import Classwork from "./Student/components/Classwork";
 import Quizzes from "./Student/components/Quizzes";
+import Login from './components/auth/login';
 
 function App() {
+  
   return (
     <div className="App">
  <Routes>
@@ -17,6 +19,7 @@ function App() {
               <Route path="/quiz" element={<Quizzes />} />
               <Route path="/self" element={<Self />} />
               <Route path="/peer" element={<Peer />} />
+              <Route path="/login" element={<Login />} />
            
             
             </Routes>

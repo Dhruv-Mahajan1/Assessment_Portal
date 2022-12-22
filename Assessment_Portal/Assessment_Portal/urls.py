@@ -18,8 +18,11 @@ from django.urls import path,include
 from studentResponse import views
 
 urlpatterns = [
+    # path('auth/', include('drf_social_oauth2.urls', namespace='drf')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('drf_social_oauth2.urls',namespace='drf')),
     path('admin/', admin.site.urls),
     path('',include('api.urls')),
     path('export/', views.export),
-    path('upload/', views.simple_upload),
+    path('upload/', views.simple_upload),    
 ]
