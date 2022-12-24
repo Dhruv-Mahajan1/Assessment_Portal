@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProSidebarProvider,Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { ProSidebarProvider, Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../theme";
@@ -9,7 +9,7 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import "./navbar.css"
+import "./navbar.css";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -38,13 +38,10 @@ const Side = () => {
   return (
     <Box className="nav-container" maxWidth="20%">
       <ProSidebarProvider collapsed={isCollapsed}>
-     
         <Menu>
-        
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            
           >
             {/* {!isCollapsed && (
               <Box
@@ -120,7 +117,7 @@ const Side = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+
             <Item
               title="Upcoming Quizzes"
               to="/calendar"
@@ -143,7 +140,7 @@ const Side = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            
+
             <Item
               title="Peer Evaluation"
               to="/peer"
@@ -151,10 +148,8 @@ const Side = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
           </Box>
         </Menu>
-        
       </ProSidebarProvider>
     </Box>
   );

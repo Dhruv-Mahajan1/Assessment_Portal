@@ -3,29 +3,26 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 import { mockDataTeam } from "../data/mockData";
 import Header from "../components/Header";
-import {React, useState, useEffect} from 'react';
-
-
-
+import { React, useState, useEffect } from "react";
+import axios from "axios";
 const Quizzes = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const [Student, setStudent] = useState([]);
 
-  const [Student,setStudent]=useState([]);
-  
-  useEffect(()=>{
-fetch("http://127.0.0.1:8000/api/student/studentDetails/B20EE021/",{
-method:"GET",
-headers:{
-  "Content-type":"application/json"
-}
-}).then(resp=>resp.json)
-.then(resp=>setStudent(resp))
-.catch(error=>console.log(error))
-
-  },[])
-
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/student/studentDetails", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    })
+      .then((resp) => console.log(resp.json()))
+      // .then((resp) => setStudent(resp))
+      .catch((error) => console.log(error));
+  }, []);
 
   const columns = [
     { field: "StudentRollNo", headerName: "Roll Number" },
@@ -52,12 +49,11 @@ headers:{
     //   headerName: "Email",
     //   flex: 1,
     // },
-    
   ];
 
   return (
     <Box m="20px">
-      <Header title="Quizzes"/>
+      <Header title="Quizzes" />
       <Box
         m="40px 0 0 0"
         height="75vh"
