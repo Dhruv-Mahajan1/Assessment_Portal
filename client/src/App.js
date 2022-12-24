@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import Peer from "./Student/components/Peer";
 import Self from "./Student/components/Self";
 import Calender from "./Student/components/Calender";
+import TeacherMain from "./Teacher/teacherMain";
+import TeacherQuizes from "./Teacher/components/TeacherQuizes";
 import Classwork from "./Student/components/Classwork";
 import Quizzes from "./Student/components/Quizzes";
 import Login from "./components/auth/login";
@@ -15,6 +17,8 @@ function App() {
         <Route path="/Student" element={<Main />} />
         <Route path="/classwork" element={<Classwork />} />
         <Route path="/calender" element={<Calender />} />
+        <Route path="/teacher" element={<TeacherMain />} />       
+        <Route path="/quizzes" element={<TeacherQuizes />} />
         <Route path="/quiz" element={<Quizzes />} />
         <Route path="/self" element={<Self />} />
         <Route path="/peer" element={<Peer />} />
