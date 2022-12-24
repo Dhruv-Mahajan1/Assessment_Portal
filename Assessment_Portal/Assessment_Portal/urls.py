@@ -22,4 +22,5 @@ urlpatterns = [
     path('',include('api.urls')),
     path('export/', views.export),
     path('upload/', views.simple_upload),
+    path('auth/', include('drf_social_oauth2.urls', namespace='drf'))
 ]
