@@ -102,9 +102,9 @@ WSGI_APPLICATION = 'Assessment_Portal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'portal',
+        'NAME': 'postgres',
         'USER' : 'postgres',
-        'PASSWORD' : '1234',
+        'PASSWORD' : 'postgres',
         'HOST' : 'localhost',
         'PORT' : '5432',
     }

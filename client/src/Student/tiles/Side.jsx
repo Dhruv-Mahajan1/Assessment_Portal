@@ -10,10 +10,19 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import "./navbar.css";
+import Quizzes from "../components/Quizzes";
+import Calender from "../components/Calender";
+import { React, useEffect } from "react";
+import LoadingSpin from "react-loading-spin";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  
+
+
   return (
     <MenuItem
       active={selected === title}
@@ -34,6 +43,51 @@ const Side = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [Loading, setLoading] = useState(true);
+
+
+
+    const [Student, setStudent] = useState([]);
+  useEffect(() => {
+    getData()
+  },[]);
+
+  async function getData() {
+
+    const response = await fetch ("http://127.0.0.1:8000/api/student/studentDetails", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    })
+
+    const result = await response.json();
+    setLoading(false);
+
+    setStudent(result);
+    console.log(result)
+
+      // .then((resp) => console.log(resp.data))
+      // .then((resp) => setStudent(resp))
+
+      // .then(function(response){return response.json();})
+      // .then(function(data){
+      //  setStudent(data);
+      //  const items=data;
+      //   console.log(items)
+      // })
+      // .catch((error) => console.log(error));
+ 
+    }
+
+    if(Loading){return <div> <center>
+      <LoadingSpin
+      size="50px" 
+      />
+      </center></div>}
+
+
 
   return (
     <Box className="nav-container" maxWidth="20%">
@@ -43,33 +97,13 @@ const Side = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           >
-            {/* {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  Online Exam Portal
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )} */}
+           
           </MenuItem>
 
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                {/* <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fnature%2F&psig=AOvVaw19wgCsHKIofC2hGupSaWHh&ust=1667986143677000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCNid0d2invsCFQAAAAAdAAAAABAE`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                /> */}
+        
               </Box>
               <Box textAlign="center">
                 <Typography
@@ -78,7 +112,7 @@ const Side = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Nitin Bhatia
+                { Student.name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Admin
@@ -90,7 +124,8 @@ const Side = () => {
           <Box>
             <Item
               title="Dashboard"
-              to="/"
+              routerLink={<Calender/>}
+              Link to="/calender"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -105,14 +140,15 @@ const Side = () => {
             </Typography>
             <Item
               title="My Classwork"
-              routerLink={<Link to="/calendar" />}
+              routerLink={<Calender/>}
+              // routerLink={<Link to="/calendar" />}
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="All Quizzes"
-              to="/quizzes"
+              // to="/quizzes"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -153,6 +189,7 @@ const Side = () => {
       </ProSidebarProvider>
     </Box>
   );
+          
 };
 
 export default Side;
