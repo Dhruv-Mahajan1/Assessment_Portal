@@ -115,7 +115,8 @@ const Side = () => {
                 { Student.name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Admin
+                   { Student.studentrollno}<br></br>
+                    { Student.branch}
                 </Typography>
               </Box>
             </Box>
