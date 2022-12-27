@@ -10,7 +10,7 @@ import axios from "axios";
 
 
 
-const Quizzes = () => {
+const Quizzes = (props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -22,8 +22,11 @@ const Quizzes = () => {
     },[]);
   
     async function getData() {
-  
-      const response = await fetch ("http://127.0.0.1:8000/api/student/getQuizScore/1", {
+      
+
+  const url=props.api;
+
+      const response = await fetch (url, {
         method: "GET",
         headers: {
           "Content-type": "application/json",

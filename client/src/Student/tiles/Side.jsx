@@ -38,14 +38,17 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Side = () => {
+const Side = (props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const [Loading, setLoading] = useState(true);
 
-
+  props.Load(selected);
+  // props.bar=selected;
+  // props.value=selected;
+ 
 
     const [Student, setStudent] = useState([]);
   useEffect(() => {
@@ -66,7 +69,7 @@ const Side = () => {
     setLoading(false);
 
     setStudent(result);
-    console.log(result)
+   
 
       // .then((resp) => console.log(resp.data))
       // .then((resp) => setStudent(resp))
@@ -86,8 +89,6 @@ const Side = () => {
       size="50px" 
       />
       </center></div>}
-
-
 
   return (
     <Box className="nav-container" maxWidth="20%">
@@ -125,11 +126,12 @@ const Side = () => {
           <Box>
             <Item
               title="Dashboard"
-              routerLink={<Calender/>}
-              Link to="/calender"
+              // routerLink={<Calender/>}
+              // Link to="/calender"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
+              
             />
 
             <Typography
@@ -139,14 +141,18 @@ const Side = () => {
             >
               Data
             </Typography>
+
+
             <Item
               title="My Classwork"
-              routerLink={<Calender/>}
-              // routerLink={<Link to="/calendar" />}
+              // routerLink={<Calender/>}
+              // // routerLink={<Link to="/calendar" />}
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+
+
             <Item
               title="All Quizzes"
               // to="/quizzes"
@@ -157,7 +163,7 @@ const Side = () => {
 
             <Item
               title="Upcoming Quizzes"
-              to="/calendar"
+              // to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -170,9 +176,12 @@ const Side = () => {
             >
               Assessment
             </Typography>
+
+
+            
             <Item
               title="Self Evaluation"
-              to="/self"
+              // to="/self"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -180,7 +189,7 @@ const Side = () => {
 
             <Item
               title="Peer Evaluation"
-              to="/peer"
+              // to="/peer"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
