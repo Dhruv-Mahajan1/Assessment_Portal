@@ -97,10 +97,11 @@ export default function SignIn() {
         token: accesstoken,
         backend: "google-oauth2",
         grant_type: "convert_token",
-        client_id: "N6hMBsK41SsDocr0jYFmNEOGJ4HRUb8x70aa1ZDx",
+        client_id: "xyToUrmLrn8Exl4TuDJfsWqnF0qUTSmLC5wdfLqT",
         client_secret:
-          "WCc0frPbx0SWQVPSsAoYTvqfawSqmvLt6p09Kare26njeankdXjPA4QQlGRiBJ6q67veqGdnbNmVjwqUdhFoaK3yfcs24RlYORx8FwFZLq4UhjxSnBhuvVdQDQmiS9Rr",
+          "UvUMp5S1vf2dFRLPhGicVQIAsZG4kT3ZtCPfVt0nDt9wIxLH5N8cv411YlnjoCZKH9qVQvrK1OH4cy3qqbRx2hwxzigJ7AQx6Q394rXWNmhKLLkHm3ymx7CUTFmrDIz6",
       })
+      
       .then((res) => {
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
