@@ -4,8 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Header from "../components/Header";
 
-
-const Peer = () =>{
+const Peer = () => {
   const [dataSource, setDataSource] = useState([]);
   const [editingRow, setEditingRow] = useState(null);
   const [form] = Form.useForm();
@@ -92,7 +91,6 @@ const Peer = () =>{
     setEditingRow(null);
   };
   return (
-    
     <div className="App">
       <header className="App-header">
         <Form form={form} onFinish={onFinish}>
@@ -101,6 +99,6 @@ const Peer = () =>{
       </header>
     </div>
   );
-}
+};
 
 export default Peer;

@@ -47,7 +47,7 @@ const Calendar = () => {
   };
 
   return (
-    <Box m="20px" >
+    <Box m="20px">
       <Header title="Upcoming Quizzes" />
 
       <Box display="flex" justifyContent="space-between">
@@ -109,7 +109,6 @@ const Calendar = () => {
             select={handleDateClick}
             eventClick={handleEventClick}
             eventsSet={(events) => setCurrentEvents(events)}
-            
           />
         </Box>
       </Box>
