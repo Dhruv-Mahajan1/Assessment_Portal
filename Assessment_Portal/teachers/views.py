@@ -8,6 +8,7 @@ from teachers.models import teacheruser
 from studentResponse.models import studentResponse,peerResponse
 from studentResponse.hashing import hashIndexes
 from quizes.serializers import questionSerializer,quizSerializer
+from .serializer import teacherDetailsSerializer
 # Create your views here.
 class getStudents(APIView):
     permission_classes = (IsAuthenticated,)
@@ -78,3 +79,13 @@ class addQuestion(APIView):
             serializer.save()
         return Response(serializer.data)
 
+class getteacherdetails(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        try:
+            teacher=teacheruser.objects.get(user=request.user)
+        except teacheruser.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = teacherDetailsSerializer(teacher)
+        return Response(serializer.data)

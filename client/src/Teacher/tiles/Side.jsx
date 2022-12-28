@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ProSidebarProvider,Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { useState, useEffect } from "react";
+import { ProSidebarProvider, Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../Student/theme";
@@ -28,7 +28,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Side = () => {
+const Side = ({ name }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -37,13 +37,10 @@ const Side = () => {
   return (
     <Box className="nav-container" maxWidth="20%">
       <ProSidebarProvider collapsed={isCollapsed}>
-     
         <Menu>
-        
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            
           >
             {/* {!isCollapsed && (
               <Box
@@ -80,7 +77,7 @@ const Side = () => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Nitin Bhatia
+                  {name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
                   Admin
@@ -119,10 +116,8 @@ const Side = () => {
               selected={selected}
               setSelected={setSelected}
             />
-          
           </Box>
         </Menu>
-        
       </ProSidebarProvider>
     </Box>
   );

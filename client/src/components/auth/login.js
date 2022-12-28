@@ -97,16 +97,14 @@ export default function SignIn() {
         token: accesstoken,
         backend: "google-oauth2",
         grant_type: "convert_token",
-        client_id: "xyToUrmLrn8Exl4TuDJfsWqnF0qUTSmLC5wdfLqT",
+        client_id: "HlwmsQAl7yuBhTFurQWvqbKpQUGvwCWvG6pHtZAW",
         client_secret:
-          "UvUMp5S1vf2dFRLPhGicVQIAsZG4kT3ZtCPfVt0nDt9wIxLH5N8cv411YlnjoCZKH9qVQvrK1OH4cy3qqbRx2hwxzigJ7AQx6Q394rXWNmhKLLkHm3ymx7CUTFmrDIz6",
       })
-      
+
       .then((res) => {
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
         navigate("/Student");
-        window.location.reload();
       });
   };
 
