@@ -38,9 +38,10 @@ const TeacherQuizes = () => {
     });
 
     const result = await response.json();
-    console.log(result);
+
     setLoading(false);
     setquizzes(result);
+    console.log(result);
   }
 
   if (Loading) {
@@ -88,30 +89,6 @@ const TeacherQuizes = () => {
             <QuizTable quizzes={quizzes} />
           </div>
         </div>
-
-        <Grid
-          container
-          spacing={2}
-          justifyContent="center"
-          columns={2}
-          marginTop="17%"
-        >
-          <Grid item>
-            <Button variant="contained" color="success" size="large">
-              Create Quiz
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="large"
-              href="/teacher"
-            >
-              Go Back
-            </Button>
-          </Grid>
-        </Grid>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

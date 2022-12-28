@@ -13,6 +13,7 @@ import Navbar from "../Student/tiles/Navbar";
 import Side from "./tiles/Side";
 import "../Student/index.css";
 import LoadingSpin from "react-loading-spin";
+import TeacherQuizes from "./components/TeacherQuizes";
 const TeacherMain = () => {
   const [theme, colorMode] = useMode();
   const [Teacher, setTeacher] = useState([]);
@@ -69,27 +70,21 @@ const TeacherMain = () => {
             >
               {Teacher.Course}
             </Typography>
+            <TeacherQuizes />
+            {/* <Button variant="contained" color="success" size="large">
+              Create Quiz
+            </Button> */}
 
             <Grid
               container
               spacing={2}
               justifyContent="center"
               columns={2}
-              marginTop="27%"
+              marginTop="6%"
             >
               <Grid item>
                 <Button variant="contained" color="success" size="large">
                   Create Quiz
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="large"
-                  href="/quizzes"
-                >
-                  View Quiz
                 </Button>
               </Grid>
             </Grid>

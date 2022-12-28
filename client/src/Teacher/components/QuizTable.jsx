@@ -21,7 +21,7 @@ const QuizTable = ({ quizzes }) => {
         <TableBody>
           {quizzes.map((quiz, index) => (
             <TableRow
-              key={quiz.name}
+              key={quiz.quizId}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="center">{index + 1}</TableCell>

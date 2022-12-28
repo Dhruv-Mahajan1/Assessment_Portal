@@ -16,6 +16,7 @@ const StudentsTable = ({ students }) => {
             <TableCell align="center">Sr No.</TableCell>
             <TableCell align="center">Roll No.</TableCell>
             <TableCell align="center">Name</TableCell>
+            <TableCell align="center">Branch</TableCell>
             <TableCell align="center">Self Score</TableCell>
             <TableCell align="center">Peer Score</TableCell>
           </TableRow>
@@ -27,8 +28,9 @@ const StudentsTable = ({ students }) => {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="center">{index + 1}</TableCell>
-              <TableCell align="center">{student.rollNo}</TableCell>
+              <TableCell align="center">{student.studentrollno}</TableCell>
               <TableCell align="center">{student.name}</TableCell>
+              <TableCell align="center">{student.branch}</TableCell>
               <TableCell align="center">{student.selfScore}</TableCell>
               <TableCell align="center">{student.peerScore}</TableCell>
             </TableRow>

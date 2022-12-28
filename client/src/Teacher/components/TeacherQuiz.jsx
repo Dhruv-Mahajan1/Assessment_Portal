@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { tokens, ColorModeContext, useMode } from "../../Student/theme";
 import StudentsTable from "./StudentsTable";
+import LoadingSpin from "react-loading-spin";
 
 const students = [
   { rollNo: "B20EE016", name: "Dhruv Mahajan", selfScore: 10, peerScore: 10 },
@@ -19,8 +20,53 @@ const students = [
   { rollNo: "B20EE018", name: "Dhruv Ma", selfScore: 8, peerScore: 7 },
 ];
 
-const TeacherQuiz = () => {
+const TeacherQuiz = ({ quizId }) => {
   const [theme, colorMode] = useMode();
+  const [Loading, setLoading] = useState(true);
+  const [Students, setstudents] = useState([]);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  async function getData() {
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/teacher/getStudents/${quizId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
+
+    const result = await response.json();
+    setLoading(false);
+    setstudents(result);
+    console.log(result);
+
+    // .then((resp) => console.log(resp.data))
+    // .then((resp) => setStudent(resp))
+
+    // .then(function(response){return response.json();})
+    // .then(function(data){
+    //  setStudent(data);
+    //  const items=data;
+    //   console.log(items)
+    // })
+    // .catch((error) => console.log(error));
+  }
+
+  if (Loading) {
+    return (
+      <div>
+        {" "}
+        <center>
+          <LoadingSpin size="50px" />
+        </center>
+      </div>
+    );
+  }
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -53,7 +99,7 @@ const TeacherQuiz = () => {
               marginTop: "30px",
             }}
           >
-            <StudentsTable students={students} />
+            <StudentsTable students={Students} />
           </div>
         </div>
 
