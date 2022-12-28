@@ -15,8 +15,7 @@ const Navbar = () => {
   const colorMode = useContext(ColorModeContext);
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2} >
-
+    <Box display="flex" justifyContent="space-between" p={2}>
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}
@@ -28,7 +27,6 @@ const Navbar = () => {
         </IconButton>
       </Box>
 
-    
       <Box display="flex">
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (

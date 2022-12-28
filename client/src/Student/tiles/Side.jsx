@@ -10,18 +10,12 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import "./navbar.css";
-import Quizzes from "../components/Quizzes";
-import Calender from "../components/Calender";
 import { React, useEffect } from "react";
 import LoadingSpin from "react-loading-spin";
-
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  
-
 
   return (
     <MenuItem
@@ -48,47 +42,51 @@ const Side = (props) => {
   props.Load(selected);
   // props.bar=selected;
   // props.value=selected;
- 
 
-    const [Student, setStudent] = useState([]);
+  const [Student, setStudent] = useState([]);
   useEffect(() => {
-    getData()
-  },[]);
+    getData();
+  }, []);
 
   async function getData() {
-
-    const response = await fetch ("http://127.0.0.1:8000/api/student/studentDetails", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
-      },
-    })
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/student/studentDetails",
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
 
     const result = await response.json();
     setLoading(false);
 
     setStudent(result);
-   
 
-      // .then((resp) => console.log(resp.data))
-      // .then((resp) => setStudent(resp))
+    // .then((resp) => console.log(resp.data))
+    // .then((resp) => setStudent(resp))
 
-      // .then(function(response){return response.json();})
-      // .then(function(data){
-      //  setStudent(data);
-      //  const items=data;
-      //   console.log(items)
-      // })
-      // .catch((error) => console.log(error));
- 
-    }
+    // .then(function(response){return response.json();})
+    // .then(function(data){
+    //  setStudent(data);
+    //  const items=data;
+    //   console.log(items)
+    // })
+    // .catch((error) => console.log(error));
+  }
 
-    if(Loading){return <div> <center>
-      <LoadingSpin
-      size="50px" 
-      />
-      </center></div>}
+  if (Loading) {
+    return (
+      <div>
+        {" "}
+        <center>
+          <LoadingSpin size="50px" />
+        </center>
+      </div>
+    );
+  }
 
   return (
     <Box className="nav-container" maxWidth="20%">
@@ -97,15 +95,15 @@ const Side = (props) => {
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-          >
-           
-          </MenuItem>
+          ></MenuItem>
 
           {!isCollapsed && (
             <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-        
-              </Box>
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              ></Box>
               <Box textAlign="center">
                 <Typography
                   variant="h2"
@@ -113,11 +111,12 @@ const Side = (props) => {
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                { Student.name}
+                  {Student.name}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                   { Student.studentrollno}<br></br>
-                    { Student.branch}
+                  {Student.studentrollno}
+                  <br></br>
+                  {Student.branch}
                 </Typography>
               </Box>
             </Box>
@@ -131,7 +130,6 @@ const Side = (props) => {
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-              
             />
 
             <Typography
@@ -142,7 +140,6 @@ const Side = (props) => {
               Data
             </Typography>
 
-
             <Item
               title="My Classwork"
               // routerLink={<Calender/>}
@@ -151,7 +148,6 @@ const Side = (props) => {
               selected={selected}
               setSelected={setSelected}
             />
-
 
             <Item
               title="All Quizzes"
@@ -177,8 +173,6 @@ const Side = (props) => {
               Assessment
             </Typography>
 
-
-            
             <Item
               title="Self Evaluation"
               // to="/self"
@@ -199,7 +193,6 @@ const Side = (props) => {
       </ProSidebarProvider>
     </Box>
   );
-          
 };
 
 export default Side;
