@@ -6,65 +6,51 @@ import Header from "../components/Header";
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 
-
-
-
-
 const Quizzes = (props) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-
   const [Loading, setLoading] = useState(true);
   const [Quiz, setQuiz] = useState([]);
-    useEffect(() => {
-      getData()
-    },[]);
-  
-    async function getData() {
-      
+  useEffect(() => {
+    getData();
+  }, []);
 
-  const url=props.api;
+  async function getData() {
+    const url = props.api;
 
-      const response = await fetch (url, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      })
-  
-      const result = await response.json();
-      setLoading(false);
-  
-      setQuiz(result);
-      
-  
-      }
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
+      },
+    });
 
-  
+    const result = await response.json();
+    setLoading(false);
 
-  var getKeys = function(Quiz){
-    var keys = [];
-    for(var key in Quiz){
-      for(var i in Quiz[key]){
-        var kd=
-  {
-    field:i, headerName:i
+    setQuiz(result);
   }
 
-       keys.push(kd);
+  var getKeys = function (Quiz) {
+    var keys = [];
+    for (var key in Quiz) {
+      for (var i in Quiz[key]) {
+        var kd = {
+          field: i,
+          headerName: i,
+        };
+
+        keys.push(kd);
+      }
+
+      break;
     }
-
-    
-  break;
-}
     return keys;
- }
+  };
 
-const columns=getKeys(Quiz);
-
-
+  const columns = getKeys(Quiz);
 
   return (
     <Box m="20px">
