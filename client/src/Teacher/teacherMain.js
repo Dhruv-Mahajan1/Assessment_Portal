@@ -18,6 +18,7 @@ const TeacherMain = () => {
   const [theme, colorMode] = useMode();
   const [Teacher, setTeacher] = useState([]);
   const [Loading, setLoading] = useState(true);
+
   useEffect(() => {
     getData();
   }, []);

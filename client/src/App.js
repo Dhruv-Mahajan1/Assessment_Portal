@@ -22,7 +22,7 @@ function App() {
         <Route path="/teacher" element={<TeacherMain />} />
         <Route path="/quizzes" element={<TeacherQuizes />} />
         <Route path="/studentrecord" element={<StudentRecord />} />
-        <Route path="/teacherquiz" element={<TeacherQuiz quizId={1} />} />
+        <Route path="/teacherquiz/:quizId" element={<TeacherQuiz />} />
         <Route path="/quiz" element={<Quizzes />} />
         <Route path="/self" element={<Self />} />
         <Route path="/peer" element={<Peer />} />

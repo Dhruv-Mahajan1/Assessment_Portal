@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Box,
@@ -20,7 +20,9 @@ const students = [
   { rollNo: "B20EE018", name: "Dhruv Ma", selfScore: 8, peerScore: 7 },
 ];
 
-const TeacherQuiz = ({ quizId }) => {
+const TeacherQuiz = () => {
+  let params = useParams();
+  console.log(params);
   const [theme, colorMode] = useMode();
   const [Loading, setLoading] = useState(true);
   const [Students, setstudents] = useState([]);
@@ -30,7 +32,7 @@ const TeacherQuiz = ({ quizId }) => {
 
   async function getData() {
     const response = await fetch(
-      `http://127.0.0.1:8000/api/teacher/getStudents/${quizId}`,
+      `http://127.0.0.1:8000/api/teacher/getStudents/${params.quizId}`,
       {
         method: "GET",
         headers: {
