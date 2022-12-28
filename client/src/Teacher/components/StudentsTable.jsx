@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 
 const StudentsTable = ({ students }) => {
   return (
-    <TableContainer component={Paper} style={{ width: "75%" }}>
+    <TableContainer component={Paper} style={{ width: "75%", height: "38vh", overflowY: "scroll" }}>
       <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
