@@ -14,10 +14,15 @@ import Side from "./tiles/Side";
 import "../Student/index.css";
 import LoadingSpin from "react-loading-spin";
 import TeacherQuizes from "./components/TeacherQuizes";
+import { useNavigate } from "react-router-dom";
 const TeacherMain = () => {
   const [theme, colorMode] = useMode();
   const [Teacher, setTeacher] = useState([]);
   const [Loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const handleClick = (event, param) => {
+    navigate(`/createquiz`);
+  };
 
   useEffect(() => {
     getData();
@@ -81,10 +86,15 @@ const TeacherMain = () => {
               spacing={2}
               justifyContent="center"
               columns={2}
-              marginTop="6%"
+              marginTop="4%"
             >
               <Grid item>
-                <Button variant="contained" color="success" size="large">
+                <Button
+                  variant="contained"
+                  color="success"
+                  size="large"
+                  onClick={(event) => handleClick(event)}
+                >
                   Create Quiz
                 </Button>
               </Grid>
