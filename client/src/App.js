@@ -11,6 +11,7 @@ import Login from "./components/auth/login";
 import Logout from "./components/auth/logout";
 import StudentRecord from "./Teacher/components/StudentRecord";
 import TeacherQuiz from "./Teacher/components/TeacherQuiz";
+import CreateQuiz from "./Teacher/components/CreateQuiz";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/studentrecord" element={<StudentRecord />} />
         <Route path="/teacherquiz/:quizId" element={<TeacherQuiz />} />
         <Route path="/quiz" element={<Quizzes />} />
+        <Route path="/createquiz" element={<CreateQuiz />} />
         <Route path="/self" element={<Self />} />
         <Route path="/peer" element={<Peer />} />
         <Route path="/login" element={<Login />} />
