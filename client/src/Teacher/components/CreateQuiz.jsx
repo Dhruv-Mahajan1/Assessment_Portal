@@ -134,8 +134,9 @@ const CreateQuiz = () => {
               variant="contained"
               color="success"
               size="large"
+              href="/teacher"
             >
-              Create Quiz
+              Go Back
             </Button>
           </div>
         </form>
