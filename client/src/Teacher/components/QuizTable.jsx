@@ -17,7 +17,10 @@ const QuizTable = ({ quizzes }) => {
     navigate(`/teacherquiz/${param}`);
   };
   return (
-    <TableContainer component={Paper} style={{ width: "75%", height: "38vh", overflowY: "scroll" }}>
+    <TableContainer
+      component={Paper}
+      style={{ width: "75%", height: "40vh", overflowY: "scroll" }}
+    >
       <Table sx={{ minWidth: 350 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
