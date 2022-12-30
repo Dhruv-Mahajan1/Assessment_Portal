@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -8,6 +7,8 @@ from rest_framework.decorators import api_view
 from .resources import studentResponseResource
 from .resources import peerResponseResource
 from tablib import Dataset
+from quizes.models import Quiz, Question
+from students.models import studentuser
 from .models import studentResponse
 from .models import peerResponse
 from django.http import HttpResponse
@@ -24,19 +25,38 @@ def export(request):
     response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename="response.xls"'
     return response
-
+ 
 def simple_upload(request):
+
+
+    quizId = 1
     if request.method == 'POST':
         studentResResource = studentResponseResource()
         dataset = Dataset()
         newData = request.FILES['myfile']
 
         importedData = dataset.load(newData.read(),format='xlsx')
-        print(importedData)
+        numberOfQuestions = len(importedData[0]) - 1
+        print(numberOfQuestions)
+        
+        baseId = Question.objects.order_by('-questionId')[0].questionId
+
         for data in importedData:
-            print(data[1])
-            value = studentResponse(data[0],data[1],data[2],data[3],data[4])
-            value.save()       
+
+            for i in range(numberOfQuestions):
+                
+                rollNumber = data[0]
+                student    = studentuser.objects.get(studentrollno = rollNumber)
+                quiz       = Quiz.objects.get(quizId = quizId)
+                question   = Question.objects.get(quizId = quizId, questionId = baseId + i + 1)
+                response   = data[i+1]
+                selfScore  = 0
+
+                value_self = studentResponse(studentRollNo=student, quizId=quiz, questionId=question, response=response, selfScore=selfScore)
+                value_self.save() 
+
+                value_peer = peerResponse(studentRollNo=student, checkedByStudentId=i+1,quizId=quiz, questionId=question, response=response, peerScore=selfScore)
+                value_peer.save()       
         
         #result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
 
