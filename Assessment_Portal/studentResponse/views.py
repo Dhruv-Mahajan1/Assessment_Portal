@@ -9,6 +9,8 @@ from .resources import peerResponseResource
 from tablib import Dataset
 from quizes.models import Quiz, Question
 from students.models import studentuser
+from quizes.models import Quiz, Question
+from students.models import studentuser
 from .models import studentResponse
 from .models import peerResponse
 from django.http import HttpResponse
@@ -26,8 +28,8 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="response.xls"'
     return response
  
+ 
 def simple_upload(request):
-
 
     quizId = 1
     if request.method == 'POST':
