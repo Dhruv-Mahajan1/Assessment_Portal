@@ -64,15 +64,15 @@ export default function SignIn() {
         grant_type: "password",
         username: formData.email,
         password: formData.password,
-        client_id: "qEaPqjHX6RM",
+        client_id: "qEaPqjHXj0r6vWNLe6VJuXbPs7xUxAVyi1gGj6RM",
         client_secret:
           "jFlbTX64XwcfC2Y7fchsc7jXhSNAxwcrCnyptLQneYIzNOZ5nz0I9VQDfqO5tDWz3xqlI0jT6dDmKzE32rLgNUf1LeLW4lO4fmrgclrnsBxLOIoZrbNi1e2QSI7qwXqI",
       })
       .then((res) => {
-        console.log("here");
+        console.log("Teacher Logged In!!");
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
-        // navigate("/Student");
+        navigate("/Teacher");
         // window.location.reload();
       });
   };
@@ -97,9 +97,9 @@ export default function SignIn() {
         token: accesstoken,
         backend: "google-oauth2",
         grant_type: "convert_token",
-        client_id: "HlwmsQAl7yuBhTFurQWvqbKpQUGvwCWvG6pHtZAW",
+        client_id: "qEaPqjHXj0r6vWNLe6VJuXbPs7xUxAVyi1gGj6RM",
         client_secret:
-          "Gg1m2D8WgJJHYxJAR8rcSfswZrwnG2YCJgYHlsTmeOaWz5Dax2y28XYPxpGZK1Ag96yng8eGLHhleGJrqnQePtuVrMlETJYT3rqg8SE2NFPg46KS0Kw5uNpXz4Vn4gpO",
+          "jFlbTX64XwcfC2Y7fchsc7jXhSNAxwcrCnyptLQneYIzNOZ5nz0I9VQDfqO5tDWz3xqlI0jT6dDmKzE32rLgNUf1LeLW4lO4fmrgclrnsBxLOIoZrbNi1e2QSI7qwXqI",
       })
 
       .then((res) => {
