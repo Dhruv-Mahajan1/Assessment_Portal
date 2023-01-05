@@ -4,7 +4,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import QuestionForm from "./QuestionForm";
+import QuestionForm from "./PeerForm";
 export default function Question(props) {
   return (
     <div>

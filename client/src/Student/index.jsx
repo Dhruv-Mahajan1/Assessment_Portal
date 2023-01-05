@@ -1,6 +1,6 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { Routes, Route,useNavigate } from "react-router-dom";
+import { useState, Link } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Navbar from "./tiles/Navbar";
@@ -11,11 +11,12 @@ import Calender from "./components/Calender";
 import Classwork from "./components/Classwork";
 import Quizzes from "./components/Quizzes";
 import "./index.css";
+import { Calendar } from "antd";
 
 const Main = () => {
   const [theme, colorMode] = useMode();
   const [bar, setBar] = useState("");
-
+  const navigate = useNavigate();
   function Load(value) {
     // console.log(value);
     // val=value;
@@ -53,9 +54,22 @@ const Main = () => {
           <main className="content">
             {console.log("The value of bar is" + bar)}
 
-            {bar === "My Classwork" && (
+            {bar === "Dashboard" && (
               <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
             )}
+       {bar === "All Quizzes" && (
+              <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
+            )}
+             {bar === "Upcoming Quizzes" && (
+              <Calendar/>
+            )}
+             {bar === "Self Evaluation" && (
+              navigate('/createquiz')
+            )}
+             {bar === "Peer Evaluation" && (
+              <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
+            )}
+
           </main>
         </div>
       </ThemeProvider>

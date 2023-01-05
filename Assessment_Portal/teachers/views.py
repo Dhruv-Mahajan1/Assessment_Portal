@@ -36,7 +36,7 @@ class getStudents(APIView):
 
 
 class doStudentMapping(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     def get(self, request, quizId):
         try:
             teacher=teacheruser.objects.get(user=request.user)

@@ -1,104 +1,218 @@
-import { Button, Table, Form, Input } from "antd";
-import "antd/dist/antd.css";
-import { useEffect } from "react";
-import { useState } from "react";
-import Header from "../components/Header";
+import React from "react";
+import {
+  Box,
+  Typography,
+  Button,
+  Grid,
+  useTheme,
+  ThemeProvider,
+  CssBaseline,
+} from "@mui/material";
+import { tokens, ColorModeContext, useMode } from "../../Student/theme";
+import { useState, useEffect } from "react";
+import PQuestion from "../../Teacher/components/PQuestion";
+const CreateQuiz = () => {
+  const [theme, colorMode] = useMode();
+  const [number, setNumber] = useState(0);
+  const [name, setName] = useState("");
+  const [rows, setRows] = useState([]);
+  const [quiz, setQuiz] = useState();
+  const [bar, setBar] = useState([]);
 
-const Peer = () => {
-  const [dataSource, setDataSource] = useState([]);
-  const [editingRow, setEditingRow] = useState(null);
-  const [form] = Form.useForm();
+    
+//   useEffect(() => {
+//     getData();
+//   }, []);
+//   async function getData() {
+   
+// const url= "http://127.0.0.1:8000/api/student/getQuizScore/" + number;
+//     const response = await fetch(url, {
+//       method: "GET",
+//       headers: {
+//         "Content-type": "application/json",
+//         Authorization: "Bearer " + localStorage.getItem("access_token"),
+//       },
+//     });
 
-  useEffect(() => {
-    const data = [];
-    for (let index = 0; index < 7; index++) {
-      data.push({
-        key: `${index}`,
-        name: `Question ${index}`,
-        address: `Marks ${index}`,
-      });
-    }
-    setDataSource(data);
-  }, []);
-  const columns = [
-    {
-      title: "Question",
-      dataIndex: "name",
-      render: (text, record) => {
-        if (editingRow === record.key) {
-          return (
-            <Form.Item
-              name="name"
-              rules={[
-                {
-                  required: false,
-                  message: "Question",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          );
-        } else {
-          return <p>{text}</p>;
-        }
+//     const result = await response.json();
+  
+
+//     setBar(result);
+//   }
+
+
+
+
+
+
+
+
+
+
+
+  const handleChange = (event) => {
+    setNumber(event.target.value);
+    setQuiz(event.target.value);
+  };
+  const handlenameChange = (event) => {
+    setName(event.target.value);
+  };
+
+
+
+
+  async function assignRows () {
+    // setNumber(1);
+    const url= "http://127.0.0.1:8000/api/student/getQuizScore/" + number;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
-    },
-    {
-      title: "Marks",
-      dataIndex: "address",
-      render: (text, record) => {
-        if (editingRow === record.key) {
-          return (
-            <Form.Item name="address">
-              <Input />
-            </Form.Item>
-          );
-        } else {
-          return <p>{text}</p>;
-        }
-      },
-    },
-    {
-      title: "Actions",
-      render: (_, record) => {
-        return (
-          <>
-            <Button
-              type="link"
-              onClick={() => {
-                setEditingRow(record.key);
-                form.setFieldsValue({
-                  name: record.name,
-                  address: record.address,
-                });
+    });
+
+    const result = await response.json();
+//     console.log(number)
+  
+
+    setBar(result);
+    console.log(bar)
+  setRows([...Array(Number(Object.keys(result).length)).keys()]);
+  }
+
+
+  // const assignRows = () => {
+  //   const url  = "http://127.0.0.1:8000/api/student/getQuizScore/" + number
+  //   fetch(url, {
+  //       method: "POST",
+  //       headers: new Headers({
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + localStorage.getItem("access_token"),
+  //       }),
+  //       body: JSON.stringify(newQuiz),
+  //     })
+  //   const value = number;
+  //   console.log(name);
+  //   if (name) {
+  //     const newQuiz = {
+  //       name: name,
+  //     };
+  //     fetch("http://127.0.0.1:8000/api/teacher/addquiz/", {
+  //       method: "POST",
+  //       headers: new Headers({
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + localStorage.getItem("access_token"),
+  //       }),
+  //       body: JSON.stringify(newQuiz),
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log(data.quizId);
+  //         setQuiz(data.quizId);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+
+  //   setRows([...Array(Number(value)).keys()]);
+  // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <form>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item>
+              <Typography variant="h1" fontWeight="bold" color="white">
+                Peer Assessment
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={4} justifyContent="center" marginTop="5vh">
+            <Grid item justifyContent="center">
+              <Typography color="grey">
+                Quiz ID:
+                <input
+                  style={{ margin: 5 }}
+                  type="text"
+                  onChange={handleChange}
+                />
+              </Typography>
+            </Grid>
+            {/* <Grid item justifyContent="center">
+              <Typography color="grey">
+                Number of questions:
+                <input
+                  style={{ margin: 5 }}
+                  type="number"
+                  onChange={handleChange}
+                />
+              </Typography>
+            </Grid> */}
+            <Grid item>
+              <Button
+                style={{ margin: 5 }}
+                onClick={assignRows}
+                variant="contained"
+                color="success"
+                size="small"
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+          <br />
+          <br />
+          <br />
+          {rows.map((row) => (
+            <div
+              key={row}
+              style={{
+                paddingRight: "1.6%",
+                paddingLeft: "1.6%",
+                paddingBottom: "0.6%",
               }}
             >
-              Edit
+            
+              <PQuestion number={row + 1} quizId={quiz} bar = {bar}/>
+            </div>
+          ))}
+          <br />
+          <br />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              // onClick={assignRows}
+              variant="contained"
+              color="success"
+              size="large"
+              href="/teacher"
+            >
+              Go Back
             </Button>
-            <Button type="link" htmlType="submit">
-              Save
-            </Button>
-          </>
-        );
-      },
-    },
-  ];
-  const onFinish = (values) => {
-    const updatedDataSource = [...dataSource];
-    updatedDataSource.splice(editingRow, 1, { ...values, key: editingRow });
-    setDataSource(updatedDataSource);
-    setEditingRow(null);
-  };
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Form form={form} onFinish={onFinish}>
-          <Table columns={columns} dataSource={dataSource}></Table>
-        </Form>
-      </header>
-    </div>
+          </div>
+        </form>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 };
 
-export default Peer;
+export default CreateQuiz;
