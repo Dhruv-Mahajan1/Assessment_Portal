@@ -7,11 +7,11 @@ import { useState, useEffect } from "react";
 export default function QuestionForm(props) {
   const [submitclicked, setsubmitclicked] = useState(false);
   const b = props.bar;
-
-  console.log("hi", props.quizId);
-
+  const [ca,setca] = useState("");
+  console.log("hi"  ,props.quizId);
+// Iska kya use hai question ka nhi pata but rakha hai
   const [question, setquestion] = useState({
-    studentRollNo: "B20EE016",
+    studentRollNo:localStorage.getItem('rollnumber'),
     quizId: parseInt(props.quizId),
     questionId: b[props.number - 1].questionId,
     // bar: b,
@@ -19,17 +19,15 @@ export default function QuestionForm(props) {
     selfScore: "",
     // type: "",
   });
-  // console.log(question);
 
-  const [bar, setBar] = useState([]);
+    const [bar, setBar] = useState([]);
 
   useEffect(() => {
     getData();
   }, []);
   async function getData() {
-    const url =
-      "http://127.0.0.1:8000/api/quiz/getcorrectanswer/" +
-      b[props.number - 1].questionId;
+   
+const url = "http://127.0.0.1:8000/api/quiz/getcorrectanswer/"+b[props.number-1].questionId
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -41,10 +39,8 @@ export default function QuestionForm(props) {
     const result = await response.json();
 
     setBar(result);
-    setquestion({
-      ...question,
-      correctAnswer: bar.correctAnswer,
-    });
+    console.log(result);
+    setca(result.correctAnswer);
   }
 
   const handleDescriptionChange = (event) => {
@@ -130,6 +126,8 @@ export default function QuestionForm(props) {
             id="outlined-multiline-flexible"
             label="Correct Answer"
             multiline
+            value={ca}
+            disabled={true}
             InputLabelProps={{
               shrink: true,
             }}

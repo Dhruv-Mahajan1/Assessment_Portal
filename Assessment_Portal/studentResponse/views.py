@@ -41,7 +41,7 @@ def simple_upload(request):
         numberOfQuestions = len(importedData[0]) - 1
         print(numberOfQuestions)
         
-        baseId = Question.objects.order_by('-questionId')[0].questionId
+     #   baseId = Question.objects.order_by('-questionId')[0].questionId
 
         for data in importedData:
 
@@ -50,7 +50,7 @@ def simple_upload(request):
                 rollNumber = data[0]
                 student    = studentuser.objects.get(studentrollno = rollNumber)
                 quiz       = Quiz.objects.get(quizId = quizId)
-                question   = Question.objects.get(quizId = quizId, questionId = baseId + i + 1)
+                question   = Question.objects.get(quizId = quizId, questionId = i + 1)
                 response   = data[i+1]
                 selfScore  = 0
 

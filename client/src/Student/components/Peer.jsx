@@ -63,13 +63,14 @@ const CreateQuiz = () => {
 
   async function assignRows () {
     // setNumber(1);
-    const url= "http://127.0.0.1:8000/api/student/getQuizScore/" + number;
+    const url= "http://127.0.0.1:8000/api/student/getPeerResponse/" + number;
     const response = await fetch(url, {
-      method: "GET",
+      method: "PUT",
       headers: {
         "Content-type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
+      body: JSON.stringify({"studentRollNo":localStorage.getItem('rollnumber')}),
     });
 
     const result = await response.json();

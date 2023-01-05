@@ -4,8 +4,10 @@ from  rest_framework.decorators import api_view
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from quizes.models import Quiz
-from quizes.models import Question,CorrectAnswer
-from quizes.serializers import quizSerializer,questionSerializer,correctAnswerSerializer
+from quizes.models import Question
+from quizes.models import CorrectAnswer
+from quizes.serializers import quizSerializer,questionSerializer, correctAnswerSerializer
+
 # for quiz 
 @api_view(['GET'])
 def getQuiz(request):

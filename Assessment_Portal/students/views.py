@@ -59,6 +59,7 @@ class getQuizScore(APIView):
         try:
             student=studentuser.objects.get(user=request.user)
             attemptedQuestions=studentResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId)
+            print(attemptedQuestions)
         except studentResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -67,11 +68,15 @@ class getQuizScore(APIView):
 
 
 class getPeerResponse(APIView):
-
-    def get(self, request, studentId, quizId):
+    
+    def put(self, request, quizId):
+        newData = request.data
+        # request.data['studentRollNo'] = "B20CS083"
+        print(newData)
         try:
-            peerRes = peerResponse.objects.filter(checkedByStudentId = studentId, quizId = quizId)
-        except studentResponse.DoesNotExist:
+            peerRes = peerResponse.objects.filter(checkedByStudentId = newData['studentRollNo'], quizId = quizId)
+            print(peerRes)
+        except peerResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = peerResponseSerializer(peerRes,many=True)
@@ -105,12 +110,14 @@ class putSelfResponse(APIView):
 
 
 class putPeerResponse(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     def put(self, request, quizId):
         newData = request.data
+        print(newData)
+        questionId = request.data['questionId']
         try:
-            student=studentuser.objects.get(user=request.user)
-            studRes=peerResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId)
+            student=studentuser.objects.get(studentrollno = newData['checkedByStudentId'])
+            studRes=peerResponse.objects.filter(checkedByStudentId=student.studentrollno , quizId=quizId, questionId=questionId)
 
         except peerResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
