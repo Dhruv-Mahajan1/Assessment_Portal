@@ -21,4 +21,13 @@ class Question(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CorrectAnswer(models.Model):
+    quizId= models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    questionId=models.ForeignKey(Question, primary_key=True, on_delete=models.CASCADE)
+    correctAnswer=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.correctAnswer
    
