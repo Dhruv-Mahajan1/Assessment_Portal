@@ -103,8 +103,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'portal',
-        'USER' : 'postgres',
-        'PASSWORD' : '1234',
+        'USER' : 'portaluser',
+        'PASSWORD' : 'portal',
         'HOST' : 'localhost',
         'PORT' : '5432',
     }
@@ -159,30 +159,30 @@ REST_FRAMEWORK = {
    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
-        'drf_social_oauth2.authentication.SocialAuthentication',
-    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
+    #     'drf_social_oauth2.authentication.SocialAuthentication',
+    # ],
 }
 
-AUTHENTICATION_BACKENDS = (
-    # Others auth providers (e.g. Facebook, OpenId, etc)
-    # Google OAuth2
-    'social_core.backends.google.GoogleOAuth2',
+# AUTHENTICATION_BACKENDS = (
+#     # Others auth providers (e.g. Facebook, OpenId, etc)
+#     # Google OAuth2
+#     'social_core.backends.google.GoogleOAuth2',
 
-    # drf-social-oauth2
-    'drf_social_oauth2.backends.DjangoOAuth2',
+#     # drf-social-oauth2
+#     'drf_social_oauth2.backends.DjangoOAuth2',
 
-    # Django
-    'django.contrib.auth.backends.ModelBackend',
-)
+#     # Django
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
-# Google configuration
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '361102340568-4g5oqh4fu0vr5aglh6apigtegs0joelv.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+# # Google configuration
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '361102340568-4g5oqh4fu0vr5aglh6apigtegs0joelv.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-]
+# # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+#     'https://www.googleapis.com/auth/userinfo.email',
+#     'https://www.googleapis.com/auth/userinfo.profile',
+# ]

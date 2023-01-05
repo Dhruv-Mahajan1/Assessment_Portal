@@ -6,13 +6,13 @@ import { useState, useEffect } from "react";
 
 export default function QuestionForm(props) {
   const [submitclicked, setsubmitclicked] = useState(false);
+  const [ca,setca] = useState("");
   const b = props.bar;
 
-  console.log(b);
 
   const [question, setquestion] = useState({
-    studentRollNo:"B20CS090",
-    checkedByStudentId: "B20CSE090",
+    studentRollNo:b[0].studentRollNo,
+    checkedByStudentId: localStorage.getItem('rollnumber'),
     quizId: parseInt(props.quizId),
     questionId:b[props.number-1].questionId,
     // bar: b,
@@ -20,29 +20,33 @@ export default function QuestionForm(props) {
     peerScore: "",
     // type: "",
   });
-// console.log(question);
+console.log(question);
 
-  const [bar, setBar] = useState([]);
+const [bar, setBar] = useState([]);
 
-  useEffect(() => {
-    getData();
-  }, []);
-  async function getData() {
-   
+useEffect(() => {
+  getData();
+}, []);
+async function getData() {
+ 
+const url = "http://127.0.0.1:8000/api/quiz/getcorrectanswer/"+b[props.number-1].questionId
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("access_token"),
+    },
+  });
 
-    const response = await fetch("", {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
-      },
-    });
+  const result = await response.json();
 
-    const result = await response.json();
-  
 
-    setBar(result);
-  }
+  setBar(result);
+  console.log(result);
+  setca(result.correctAnswer);
+}
+
+
 
 
 
@@ -75,13 +79,13 @@ export default function QuestionForm(props) {
   const submitquestion = () => {
     setsubmitclicked(!submitclicked);
 
-    console.log(question);
 
     if (submitclicked) {
     }
     if (!submitclicked) {
       // console.log("heeee");
       const newQuestion = question;
+      console.log(newQuestion)
       const url="http://127.0.0.1:8000/api/student/putPeerResponse/"+props.quizId;
       fetch(url, {
         method: "PUT",
@@ -137,6 +141,8 @@ export default function QuestionForm(props) {
             id="outlined-multiline-flexible"
             label="Correct Answer"
             multiline
+            value={ca}
+            disabled={true}
             InputLabelProps={{
               shrink: true,
             }}
