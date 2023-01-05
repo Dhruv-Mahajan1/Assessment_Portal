@@ -2,9 +2,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from  rest_framework.decorators import api_view
 from quizes.models import Quiz
-from quizes.models import Question
-from quizes.serializers import quizSerializer,questionSerializer
-
+from quizes.models import Question,CorrectAnswer
+from quizes.serializers import quizSerializer,questionSerializer,correctAnswerSerializer
 # for quiz 
 @api_view(['GET'])
 def getQuiz(request):
@@ -39,4 +38,16 @@ def getQuestion(request,questionId):
 
     if request.method == 'GET':
         serializer = questionSerializer(requiredQuestion)
+        return Response(serializer.data)
+
+@api_view(['GET'])
+def getCorrectAnswer(request,questionId):
+
+    try:
+        correctAns = CorrectAnswer.objects.get(questionId=questionId)
+    except CorrectAnswer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = correctAnswerSerializer(correctAns)
         return Response(serializer.data)

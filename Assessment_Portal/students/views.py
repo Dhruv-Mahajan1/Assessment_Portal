@@ -19,6 +19,7 @@ from studentResponse.serializer import studentResponseSerializer
 from quizes.serializers import questionSerializer
 
 from students.models import studentuser
+from user.models import User
 # Create your views here.
 
 
@@ -120,4 +121,27 @@ class putPeerResponse(APIView):
              return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class addstudent(APIView):
+    # permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        newData = request.data
+        try:
+            user=User.objects.get(username=newData['user'])
+            student=studentuser.objects.get(user=user)
+            del newData['user']
+            return Response({'message':"Alreay user exists"})
+        except studentuser.DoesNotExist:
+            
+            serializer = studentDetailsSerializer(data=newData)
+            if serializer.is_valid():
+                new_student = studentuser.objects.create(
+                user=user,
+                studentrollno=newData['studentrollno'],
+                branch=newData['branch'],
+                name=newData['name']
+            )
+                new_student.save()
+                return Response(serializer.data)
+            print(newData)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

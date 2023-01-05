@@ -23,6 +23,7 @@ const students = [
 const TeacherQuiz = () => {
   let params = useParams();
   console.log(params);
+  let currentData;
   const [theme, colorMode] = useMode();
   const [Loading, setLoading] = useState(true);
   const [Students, setstudents] = useState([]);
@@ -82,15 +83,29 @@ const TeacherQuiz = () => {
       };
       data1[i] = tempdata;
     }
+    console.log(data1);
+    setdata(data1);
+    currentData = data1;
+    return data1;
+  }
+
+  async function call() {
+    let data1 = await getData1();
+
+    console.log(data1);
     return data1;
   }
 
   const submitquestion = () => {
     setsubmitclicked(!submitclicked);
-
-    let data1 = getData1();
-
-    console.log(data1);
+    call()
+      .then((res) => {
+        setdata(res);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   if (Loading) {

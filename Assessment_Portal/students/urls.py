@@ -8,5 +8,6 @@ urlpatterns = [
     # path('doSelfAssessment/<int:quizId>', views.doSelfAssessment.as_view(), name="student-details"), 
     path('putSelfResponse/<int:quizId>',views.putSelfResponse.as_view(),name="put-self-data"),
     path('putPeerResponse/<int:quizId>',views.putPeerResponse.as_view(),name="put-peer-data"),
+    path('addstudent',views.addstudent.as_view(),name="addstudent"),
 
 ]

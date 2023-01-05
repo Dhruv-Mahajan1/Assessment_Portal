@@ -45,8 +45,15 @@ export default function SignIn() {
     email: "",
     password: "",
   });
+  const [student, setstudent] = useState({
+    user: "",
+    studentrollno: "",
+    name: "",
+    branch: "",
+  });
 
   const [formData, updateFormData] = useState(initialFormData);
+  let currentStudent;
 
   const handleChange = (e) => {
     updateFormData({
@@ -55,6 +62,26 @@ export default function SignIn() {
     });
   };
 
+  currentStudent = {
+    user: "hi",
+    studentrollno: localStorage.getItem("rollnumber"),
+    name: localStorage.getItem("name"),
+    branch: localStorage.getItem("branch"),
+  };
+
+  // async function Call() {
+  //   const ser = localStorage.getItem("user");
+
+  //   setstudent({
+  //     user: "hi",
+  //     studentrollno: localStorage.getItem("rollnumber"),
+  //     name: localStorage.getItem("name"),
+  //     branch: localStorage.getItem("branch"),
+  //   });
+  //   console.log(student);
+  // }
+
+  // const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
@@ -90,39 +117,76 @@ export default function SignIn() {
     gapi.load("client:auth2", initClient);
   });
 
-  const googleLogin = (accesstoken) => {
+  async function googleLogin(accesstoken) {
     console.log(accesstoken);
     axios
       .post(`http://127.0.0.1:8000/auth/convert-token`, {
         token: accesstoken,
         backend: "google-oauth2",
         grant_type: "convert_token",
-        client_id: "qEaPqjHXj0r6vWNLe6VJuXbPs7xUxAVyi1gGj6RM",
+        client_id: "d1f5TaEkl2WKkg4Ce0sBy5BI6rEwvBf1VCjwokIl",
         client_secret:
-          "jFlbTX64XwcfC2Y7fchsc7jXhSNAxwcrCnyptLQneYIzNOZ5nz0I9VQDfqO5tDWz3xqlI0jT6dDmKzE32rLgNUf1LeLW4lO4fmrgclrnsBxLOIoZrbNi1e2QSI7qwXqI",
+          "qupUMc13iKSmkDv0bSl2L5Ho2g2NiVuRejCgfa7jBstYuS1fbnMqEEH3jRFWbO3VSYqLA4Mj6aTAJrXiQ9UAVahHbY4vpVqawFVQmDCMh5wWEqOWvLvkgAvsw5nGhAyI",
       })
 
       .then((res) => {
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
-        navigate("/Student");
+        // setstudent({
+        //   user: localStorage.getItem("user"),
+        //   studentrollno: localStorage.getItem("rollnumber"),
+        //   name: localStorage.getItem("name"),
+        //   branch: localStorage.getItem("branch"),
+        // });
 
+        // console.log(student);
+        // Call();
+
+        navigate("/Student");
+        currentStudent = {
+          user: localStorage.getItem("user"),
+          studentrollno: localStorage.getItem("rollnumber"),
+          name: localStorage.getItem("name"),
+          branch: localStorage.getItem("branch"),
+        };
+        // console.log(currentStudent, "bye");
+        fetch("http://127.0.0.1:8000/api/student/addstudent", {
+          method: "POST",
+          headers: new Headers({
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          }),
+          body: JSON.stringify(currentStudent),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       });
-  };
+  }
+  console.log(student);
+  googleLogin();
 
   const responseGoogle = (response) => {
-    // console.log(response);
-    // console.log(response.tokenObj.access_token);
-    console.log(response.profileObj);
-    localStorage.setItem("rollnumber", response.profileObj.familyName.slice(1,response.profileObj.familyName.length-1));
-    console.log(response.profileObj.familyName.slice(1,response.profileObj.familyName.length-1))
-    axios
-      .post(`http://127.0.0.1:8000/api/student/putSelfResponse/1`, {
-        data: response.profileObj
-      })
-    
-    var rollnumber = response.profileObj.familyName.slice(1,response.profileObj.familyName.length-1);
-    document.cookie = "rollnumber="+rollnumber;
+    localStorage.setItem(
+      "rollnumber",
+      response.profileObj.familyName.slice(
+        1,
+        response.profileObj.familyName.length - 1
+      )
+    );
+    localStorage.setItem(
+      "user",
+      response.profileObj.email.slice(0, response.profileObj.email.length - 11)
+    );
+    localStorage.setItem("name", response.profileObj.givenName);
+    localStorage.setItem("branch", response.profileObj.familyName.slice(4, 6));
+    console.log(localStorage.getItem("user"));
+
     googleLogin(response.tokenObj.access_token);
   };
 

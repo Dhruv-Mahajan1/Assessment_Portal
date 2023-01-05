@@ -8,18 +8,18 @@ export default function QuestionForm(props) {
   const [submitclicked, setsubmitclicked] = useState(false);
   const b = props.bar;
 
-  console.log("hi"  ,props.quizId);
+  console.log("hi", props.quizId);
 
   const [question, setquestion] = useState({
-    studentRollNo:"B20CS090",
+    studentRollNo: "B20EE016",
     quizId: parseInt(props.quizId),
-    questionId:b[props.number-1].questionId,
+    questionId: b[props.number - 1].questionId,
     // bar: b,
-    response:b[props.number-1].response,
+    response: b[props.number - 1].response,
     selfScore: "",
     // type: "",
   });
-// console.log(question);
+  // console.log(question);
 
   const [bar, setBar] = useState([]);
 
@@ -27,9 +27,10 @@ export default function QuestionForm(props) {
     getData();
   }, []);
   async function getData() {
-   
-
-    const response = await fetch("", {
+    const url =
+      "http://127.0.0.1:8000/api/quiz/getcorrectanswer/" +
+      b[props.number - 1].questionId;
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-type": "application/json",
@@ -38,18 +39,13 @@ export default function QuestionForm(props) {
     });
 
     const result = await response.json();
-  
 
     setBar(result);
+    setquestion({
+      ...question,
+      correctAnswer: bar.correctAnswer,
+    });
   }
-
-
-
-
-
-
-
-
 
   const handleDescriptionChange = (event) => {
     setquestion({
@@ -60,7 +56,7 @@ export default function QuestionForm(props) {
   const handleMarksChange = (event) => {
     setquestion({
       ...question,
-      selfScore : event.target.value,
+      selfScore: event.target.value,
     });
   };
   // const handleTypeChange = (event) => {
@@ -81,7 +77,8 @@ export default function QuestionForm(props) {
     if (!submitclicked) {
       // console.log("heeee");
       const newQuestion = question;
-      const url="http://127.0.0.1:8000/api/student/putSelfResponse/"+props.quizId;
+      const url =
+        "http://127.0.0.1:8000/api/student/putSelfResponse/" + props.quizId;
       fetch(url, {
         method: "PUT",
         headers: new Headers({
@@ -91,12 +88,11 @@ export default function QuestionForm(props) {
         }),
         body: JSON.stringify(newQuestion),
       })
-
         .then((response) => response.json())
         .then((data) => {
           setquestion({
             ...question,
-            
+
             totalMarks: " ",
             type: "",
           });
@@ -107,12 +103,10 @@ export default function QuestionForm(props) {
         });
     }
   };
-  console.log(props.number)
+  console.log(props.number);
 
   return (
-   
     <>
-    
       <Box
         component="form"
         sx={{
@@ -146,7 +140,7 @@ export default function QuestionForm(props) {
             id="outlined-required"
             label="Given Answer"
             multiline
-            value={b[props.number-1].response}
+            value={b[props.number - 1].response}
             disabled={true}
             // onChange={handleTypeChange}
           />
@@ -157,7 +151,6 @@ export default function QuestionForm(props) {
             InputLabelProps={{
               shrink: true,
             }}
-            
             onChange={handleMarksChange}
           />
         </div>

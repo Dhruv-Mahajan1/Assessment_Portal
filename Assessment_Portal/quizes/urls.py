@@ -5,4 +5,5 @@ urlpatterns = [
     path('getquiz/',views.getQuiz),
     path('getquestion/<int:questionId>/',views.getQuestion),
     path('getquizquestions/<int:quizId>/',views.getQuizQuestions),
+    path('getcorrectanswer/<int:questionId>/',views.getCorrectAnswer),
 ]
