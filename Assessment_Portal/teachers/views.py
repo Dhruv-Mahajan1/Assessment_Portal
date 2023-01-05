@@ -50,11 +50,19 @@ class doStudentMapping(APIView):
 
             
         StudentMapping=hashIndexes(list(Students))
+        finalmapping=[]
+        id=0
         for checkByStudentId,student in StudentMapping.items():
+            name =studentuser.objects.get(studentrollno=checkByStudentId)
+            name=studentlistserializer(name)
+            allotedname=studentuser.objects.get(studentrollno=student)
+            allotedname=studentlistserializer(allotedname)
+            finalmapping.append({'name':name.data['studentrollno'],'allotedname':allotedname.data['studentrollno']})
             questions=peerResponse.objects.filter(studentRollNo=student , quizId=quizId)
             questions.update(checkedByStudentId=checkByStudentId)
-            
-        return Response(StudentMapping)
+        
+        # print(finalmapping)
+        return Response(finalmapping)
 
 class addQuiz(APIView):
     permission_classes = (IsAuthenticated,)

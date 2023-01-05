@@ -26,11 +26,14 @@ const TeacherQuiz = () => {
   let currentData;
   const [theme, colorMode] = useMode();
   const [Loading, setLoading] = useState(true);
+  const [Loading2, setLoading2] = useState(true);
+  const [ismapped, setismapped] = useState(false);
   const [Students, setstudents] = useState([]);
   const [data, setdata] = useState({});
   const [submitclicked, setsubmitclicked] = useState(false);
   useEffect(() => {
     getData();
+    getData1();
   }, []);
 
   async function getData() {
@@ -45,21 +48,23 @@ const TeacherQuiz = () => {
       }
     );
 
+    const response1 = await fetch(
+      `http://127.0.0.1:8000/api/quiz/getparticularQuiz/${params.quizId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
+
     const result = await response.json();
+    const result1 = await response1.json();
     setLoading(false);
     setstudents(result);
-    console.log(result);
-
-    // .then((resp) => console.log(resp.data))
-    // .then((resp) => setStudent(resp))
-
-    // .then(function(response){return response.json();})
-    // .then(function(data){
-    //  setStudent(data);
-    //  const items=data;
-    //   console.log(items)
-    // })
-    // .catch((error) => console.log(error));
+    setismapped(result1["mapped"]);
+    console.log(result1["mapped"]);
   }
   async function getData1() {
     const response = await fetch(
@@ -74,38 +79,28 @@ const TeacherQuiz = () => {
     );
 
     const result = await response.json();
-
-    var data1 = {};
-    for (var i = 0; i < Object.keys(result).length; i++) {
-      var tempdata = {
-        name: Object.keys(result)[i],
-        allotedname: Object.values(result)[i],
-      };
-      data1[i] = tempdata;
-    }
-    console.log(data1);
-    setdata(data1);
-    currentData = data1;
-    return data1;
+    setLoading2(false);
+    setdata(result);
+    console.log(result);
   }
-
-  async function call() {
-    let data1 = await getData1();
-
-    console.log(data1);
-    return data1;
+  async function setmapping() {
+    const response3 = await fetch(
+      `http://127.0.0.1:8000/api/quiz/dpmappquiz/${params.quizId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      }
+    );
   }
 
   const submitquestion = () => {
     setsubmitclicked(!submitclicked);
-    call()
-      .then((res) => {
-        setdata(res);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    setismapped(true);
+    setmapping();
+    getData1();
   };
 
   if (Loading) {
@@ -159,12 +154,12 @@ const TeacherQuiz = () => {
             color="success"
             size="small"
             onClick={submitquestion}
-            // disabled={submitclicked}
+            disabled={ismapped}
           >
-            {submitclicked ? "Mapped" : "Do Student Mapping"}
+            {ismapped ? "Mapped" : "Do Student Mapping"}
           </Button>
         </div>
-        {submitclicked && (
+        {ismapped && !Loading2 && (
           <div
             style={{
               display: "flex",
@@ -173,7 +168,7 @@ const TeacherQuiz = () => {
               marginTop: "30px",
             }}
           >
-            <StudentMappedTable students={Students} />
+            <StudentMappedTable students={data} />
           </div>
         )}
 

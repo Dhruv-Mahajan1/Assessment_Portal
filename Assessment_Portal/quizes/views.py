@@ -1,6 +1,8 @@
 from rest_framework.response import Response
 from rest_framework import status
 from  rest_framework.decorators import api_view
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.views import APIView
 from quizes.models import Quiz
 from quizes.models import Question,CorrectAnswer
 from quizes.serializers import quizSerializer,questionSerializer,correctAnswerSerializer
@@ -11,7 +13,23 @@ def getQuiz(request):
     serializer=quizSerializer(quizzes,many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def getparticularQuiz(request,quizId):
+    quizzes=Quiz.objects.get(quizId=quizId)
+    serializer=quizSerializer(quizzes)
+    return Response(serializer.data)
 
+
+class domappquiz(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request, quizId):
+        try:
+            quiz=Quiz.objects.get(quizId=quizId)
+        except Quiz.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        quiz.mapped=True
+        quiz.save()
+        return Response(quizSerializer(quiz).data)
 
 
 @api_view(['GET'])
