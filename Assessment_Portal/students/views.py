@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from rest_framework.response import Response
@@ -80,12 +80,19 @@ class getPeerResponse(APIView):
 
 
 class putSelfResponse(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
+
     def put(self, request, quizId):
         newData = request.data
+        questionId = request.data['questionId']
+        # request.data['studentRollNo'] = "B20CSE090"
         try:
-            student=studentuser.objects.get(user=request.user)
-            studRes=studentResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId)
+           # print(request.user)
+            print(newData)
+            # print(request.COOKIES['rollnumber'])
+            student=studentuser.objects.get(studentrollno = newData['studentRollNo'])
+           # print(student.studentrollno)
+            studRes=studentResponse.objects.filter(studentRollNo=student.studentrollno , quizId=quizId, questionId=questionId)
         except studentResponse.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 

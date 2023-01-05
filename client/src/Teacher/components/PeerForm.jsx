@@ -8,15 +8,16 @@ export default function QuestionForm(props) {
   const [submitclicked, setsubmitclicked] = useState(false);
   const b = props.bar;
 
-  console.log("hi"  ,props.quizId);
+  console.log(b);
 
   const [question, setquestion] = useState({
     studentRollNo:"B20CS090",
+    checkedByStudentId: "B20CSE090",
     quizId: parseInt(props.quizId),
     questionId:b[props.number-1].questionId,
     // bar: b,
     response:b[props.number-1].response,
-    selfScore: "",
+    peerScore: "",
     // type: "",
   });
 // console.log(question);
@@ -60,7 +61,7 @@ export default function QuestionForm(props) {
   const handleMarksChange = (event) => {
     setquestion({
       ...question,
-      selfScore : event.target.value,
+      peerScore : event.target.value,
     });
   };
   // const handleTypeChange = (event) => {
@@ -81,7 +82,7 @@ export default function QuestionForm(props) {
     if (!submitclicked) {
       // console.log("heeee");
       const newQuestion = question;
-      const url="http://127.0.0.1:8000/api/student/putSelfResponse/"+props.quizId;
+      const url="http://127.0.0.1:8000/api/student/putPeerResponse/"+props.quizId;
       fetch(url, {
         method: "PUT",
         headers: new Headers({

@@ -106,12 +106,23 @@ export default function SignIn() {
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
         navigate("/Student");
+
       });
   };
 
   const responseGoogle = (response) => {
-    console.log(response);
+    // console.log(response);
     // console.log(response.tokenObj.access_token);
+    console.log(response.profileObj);
+    localStorage.setItem("rollnumber", response.profileObj.familyName.slice(1,response.profileObj.familyName.length-1));
+    console.log(response.profileObj.familyName.slice(1,response.profileObj.familyName.length-1))
+    axios
+      .post(`http://127.0.0.1:8000/api/student/putSelfResponse/1`, {
+        data: response.profileObj
+      })
+    
+    var rollnumber = response.profileObj.familyName.slice(1,response.profileObj.familyName.length-1);
+    document.cookie = "rollnumber="+rollnumber;
     googleLogin(response.tokenObj.access_token);
   };
 
