@@ -35,6 +35,8 @@ const TeacherQuiz = () => {
     getData();
     getData1();
   }, []);
+  const qi=params.quizId;
+  const uploadUrl="http://127.0.0.1:8000/upload/"+qi;
 
   async function getData() {
     const response = await fetch(
@@ -157,6 +159,16 @@ const TeacherQuiz = () => {
             disabled={ismapped}
           >
             {ismapped ? "Mapped" : "Do Student Mapping"}
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            size="small"
+            href={uploadUrl}
+           
+            
+          >
+         Upload Responses
           </Button>
         </div>
         {ismapped && !Loading2 && (
