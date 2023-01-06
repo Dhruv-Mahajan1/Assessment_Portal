@@ -179,6 +179,8 @@ class getResponse(APIView):
         serializer2 = studentResponseSerializer(selfRes,many=True)
 
         for i in range(len(serializer1.data)):
-            serializer2.data[i]["peerScore"] = serializer1.data[i]["peerScore"]
+            for j in range(len(serializer2.data)):
+                if(serializer2.data[j]["questionId"] == serializer1.data[i]["questionId"]):
+                    serializer2.data[j]["peerScore"] = serializer1.data[i]["peerScore"]
 
         return Response(serializer2.data)
