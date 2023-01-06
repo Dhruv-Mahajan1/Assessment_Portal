@@ -12,6 +12,7 @@ const Quizzes = (props) => {
 
   const [Loading, setLoading] = useState(true);
   const [Quiz, setQuiz] = useState([]);
+  
   useEffect(() => {
     getData();
   }, []);
