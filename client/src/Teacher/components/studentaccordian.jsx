@@ -28,11 +28,16 @@ export default function Studentaccordian(props) {
         }),
         body: JSON.stringify({ studentRollNo: props.rollNo }),
       }
-    );
-    const result = await response.json();
-    setLoading(false);
-    setdetails(details);
-    console.log(result);
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setLoading(false);
+        setdetails(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
   if (Loading) {
     return (
@@ -57,7 +62,7 @@ export default function Studentaccordian(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Studentsparticulartable rollno={props.rollNo} details={details} />
+          <Studentsparticulartable details={details} />
         </AccordionDetails>
       </Accordion>
     </div>
