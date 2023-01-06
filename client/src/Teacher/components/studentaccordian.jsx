@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 export default function Studentaccordian(props) {
   let params = useParams();
   const [Loading, setLoading] = useState(true);
+  const [flag, setflag] = useState(false);
   const [details, setdetails] = useState();
   useEffect(() => {
     getData();
@@ -34,6 +35,10 @@ export default function Studentaccordian(props) {
         console.log(data);
         setLoading(false);
         setdetails(data);
+
+        if (data[0].selfScore === data[0].peerScore) {
+          setflag(false);
+        } else setflag(true);
       })
       .catch((error) => {
         console.error(error);
@@ -51,7 +56,7 @@ export default function Studentaccordian(props) {
   }
   return (
     <div>
-      <Accordion>
+      <Accordion style={!flag ? { color: "#ffffff" } : { color: "#ff0000" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -62,7 +67,7 @@ export default function Studentaccordian(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Studentsparticulartable details={details} />
+          <Studentsparticulartable details={details} flag={flag} />
         </AccordionDetails>
       </Accordion>
     </div>

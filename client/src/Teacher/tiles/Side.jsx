@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import React from "react";
 import { ProSidebarProvider, Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 import { tokens } from "../../Student/theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
@@ -9,17 +11,18 @@ import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { useNavigate } from "react-router-dom";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
     <MenuItem
-      active={selected === title}
-      style={{
-        color: colors.grey[100],
-      }}
-      onClick={() => setSelected(title)}
+      // active={selected === title}
+      // style={{
+      //   color: colors.grey[100],
+      // }}
+      // onClick={() => setSelected(title)}
       icon={icon}
     >
       <Typography>{title}</Typography>
@@ -32,13 +35,26 @@ const Side = ({ name }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Dashboard");
+  // const [selected, setSelected] = useState("Dashboard");
+  const navigate = useNavigate();
+  const handleClick = (event, param) => {
+    navigate(`/createquiz`);
+  };
 
   return (
     <Box className="nav-container" maxWidth="20%">
       <ProSidebarProvider collapsed={isCollapsed}>
-        <Menu>
-          <MenuItem
+        <Menu
+          renderMenuItemStyles={() => ({
+            ".menu-anchor": {
+              // backgroundColor: "red",
+              "&:hover": {
+                backgroundColor: "green",
+              },
+            },
+          })}
+        >
+          {/* <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
           >
@@ -56,8 +72,8 @@ const Side = ({ name }) => {
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>
-            )} */}
-          </MenuItem>
+          //   )} */}
+          {/* // </MenuItem> */}
 
           {!isCollapsed && (
             <Box mb="25px">
@@ -89,20 +105,27 @@ const Side = ({ name }) => {
           <Box>
             <Item
               title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+              icon={<HomeOutlinedIcon disabled={true} />}
             />
-          {/* <Item
+
+            {/* <Item
               title="Create Quiz"
               to="/"
               // icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             /> */}
-           
-            
+
+            <center style={{ margin: "5%", padding: "5%" }}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={(event) => handleClick(event)}
+              >
+                <PeopleOutlinedIcon />
+                Create Quiz
+              </Button>
+            </center>
           </Box>
         </Menu>
       </ProSidebarProvider>

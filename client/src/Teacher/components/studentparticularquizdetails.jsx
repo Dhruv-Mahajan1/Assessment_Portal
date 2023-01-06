@@ -16,7 +16,7 @@ const Studentsparticulartable = (props) => {
   //   { name: "Dhruv M", selfScore: 7, peerScore: 8 },
   //   { name: "Dhruv Ma", selfScore: 8, peerScore: 7 },
   // ];
-  console.log("ffff", props.details);
+  console.log("ffff", props.flag);
   return (
     <TableContainer
       component={Paper}

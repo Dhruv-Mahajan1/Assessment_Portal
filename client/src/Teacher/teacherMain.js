@@ -15,6 +15,7 @@ import "../Student/index.css";
 import LoadingSpin from "react-loading-spin";
 import TeacherQuizes from "./components/TeacherQuizes";
 import { useNavigate } from "react-router-dom";
+
 const TeacherMain = () => {
   const [theme, colorMode] = useMode();
   const [Teacher, setTeacher] = useState([]);
@@ -88,7 +89,7 @@ const TeacherMain = () => {
               columns={2}
               marginTop="4%"
             >
-              <Grid item>
+              {/* <Grid item>
                 <Button
                   variant="contained"
                   color="success"
@@ -97,7 +98,7 @@ const TeacherMain = () => {
                 >
                   Create Quiz
                 </Button>
-              </Grid>
+              </Grid> */}
             </Grid>
           </main>
         </div>

@@ -25,7 +25,6 @@ function App() {
         <Route path="/studentrecord" element={<StudentRecord />} />
         <Route path="/teacherquiz/:quizId" element={<TeacherQuiz />} />
         <Route path="/quiz" element={<Quizzes />} />
-        
         <Route path="/createquiz" element={<CreateQuizpage />} />
         <Route path="/self" element={<Self />} />
         <Route path="/peer" element={<Peer />} />
