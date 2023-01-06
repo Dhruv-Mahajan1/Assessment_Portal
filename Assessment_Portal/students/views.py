@@ -152,3 +152,21 @@ class addstudent(APIView):
             print(newData)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class getResponse(APIView):
+    
+    def put(self, request, quizId):
+        newData = request.data
+        # request.data['studentRollNo'] = "B20CS083"
+        print(newData)
+
+        peerRes = peerResponse.objects.filter(studentRollNo = newData['studentRollNo'], quizId = quizId)
+        selfRes = studentResponse.objects.filter(studentRollNo = newData['studentRollNo'], quizId = quizId)
+
+        serializer1 = peerResponseSerializer(peerRes,many=True)
+        serializer2 = studentResponseSerializer(selfRes,many=True)
+
+        for i in range(len(serializer1.data)):
+            serializer2.data[i]["peerScore"] = serializer1.data[i]["peerScore"]
+
+        return Response(serializer2.data)
