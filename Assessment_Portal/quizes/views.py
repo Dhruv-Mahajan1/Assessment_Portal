@@ -71,3 +71,19 @@ def getCorrectAnswer(request,questionId):
     if request.method == 'GET':
         serializer = correctAnswerSerializer(correctAns)
         return Response(serializer.data)
+
+
+@api_view(['POST'])
+def postCorrectAnswer(request,quizId, questionId):
+
+    newData = request.data
+    quiz = Quiz.objects.get(quizId=quizId)
+    question = Question.objects.get(questionId=questionId, quizId=quizId)
+    try:
+        correctAns = CorrectAnswer.objects.get(questionId=questionId, quizId=quizId)
+    except CorrectAnswer.DoesNotExist:
+
+        correctAns = CorrectAnswer.objects.create(questionId=question, quizId=quiz, correctAnswer=newData["ca"])
+        correctAns.save()
+
+        return Response("donE")

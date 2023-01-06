@@ -9,4 +9,7 @@ urlpatterns = [
     path('getparticularQuiz/<int:quizId>/',views.getparticularQuiz),
     path('dpmappquiz/<int:quizId>/',views.domappquiz.as_view(),name="domappquiz"),
     path('getcorrectanswer/<int:questionId>/',views.getCorrectAnswer),
+    path('postcorrectanswer/<int:questionId>/<int:quizId>/',views.postCorrectAnswer),
+    
+    
 ]

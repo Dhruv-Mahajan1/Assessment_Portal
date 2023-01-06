@@ -177,12 +177,12 @@ const TeacherQuiz = () => {
           spacing={2}
           justifyContent="center"
           columns={2}
-          marginTop="17%"
+          marginTop="4%"
         >
           <Grid item>
-            <Button variant="contained" color="success" size="large">
+            {/* <Button variant="contained" color="success" size="large">
               Create Quiz
-            </Button>
+            </Button> */}
           </Grid>
           <Grid item>
             <Button
