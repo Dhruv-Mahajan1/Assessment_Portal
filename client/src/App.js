@@ -12,7 +12,7 @@ import Logout from "./components/auth/logout";
 import StudentRecord from "./Teacher/components/StudentRecord";
 import TeacherQuiz from "./Teacher/components/TeacherQuiz";
 import CreateQuizpage from "./Teacher/components/createquizpage.jsx";
-import Addresponse from "./Teacher/components/Addresponse";
+
 function App() {
   return (
     <div className="App">
@@ -25,7 +25,7 @@ function App() {
         <Route path="/studentrecord" element={<StudentRecord />} />
         <Route path="/teacherquiz/:quizId" element={<TeacherQuiz />} />
         <Route path="/quiz" element={<Quizzes />} />
-        <Route path="/addresponses" element={<Addresponse />} />
+        
         <Route path="/createquiz" element={<CreateQuizpage />} />
         <Route path="/self" element={<Self />} />
         <Route path="/peer" element={<Peer />} />

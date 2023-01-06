@@ -72,12 +72,12 @@ export default function QuestionForm(props) {
               console.error(error);
             });
 
-          setquestion({
-            ...question,
-            description: "",
-            totalMarks: " ",
-            type: "",
-          });
+          // setquestion({
+          //   ...question,
+          //   description: "",
+          //   totalMarks: " ",
+          //   type: "",
+          // });
           console.log(data);
         })
         .catch((error) => {
