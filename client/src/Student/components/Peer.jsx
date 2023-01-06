@@ -205,7 +205,7 @@ const CreateQuiz = () => {
               variant="contained"
               color="success"
               size="large"
-              href="/teacher"
+              href="/Student"
             >
               Go Back
             </Button>

@@ -35,9 +35,7 @@ const Main = () => {
     if (value === "Self Assessment") {
       return <Self />;
     }
-    if (value === "Upcoming Quizzes") {
-      return <Calender />;
-    }
+
   }
 
   return (
@@ -52,22 +50,17 @@ const Main = () => {
           <Side Load={Load} />
 
           <main className="content">
-            {console.log("The value of bar is" + bar)}
+         
 
             {bar === "Dashboard" && (
               <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
             )}
-       {bar === "All Quizzes" && (
-              <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
-            )}
-             {bar === "Upcoming Quizzes" && (
-              <Calendar/>
-            )}
+       
              {bar === "Self Evaluation" && (
-              navigate('/createquiz')
+              navigate('/self')
             )}
              {bar === "Peer Evaluation" && (
-              <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
+               navigate('/peer')
             )}
 
           </main>

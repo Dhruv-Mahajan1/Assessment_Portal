@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ProSidebarProvider, Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { ProSidebarProvider, Menu, MenuItem } from "react-pro-sidebar";
+import { Box,  Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -40,8 +40,7 @@ const Side = (props) => {
   const [Loading, setLoading] = useState(true);
 
   props.Load(selected);
-  // props.bar=selected;
-  // props.value=selected;
+
 
   const [Student, setStudent] = useState([]);
   useEffect(() => {
@@ -132,30 +131,24 @@ const Side = (props) => {
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
-            </Typography>
+            </Typography> */}
 
-            <Item
-              title="My Classwork"
+            {/* <Item
+              title="All Quizzes"
               // routerLink={<Calender/>}
               // // routerLink={<Link to="/calendar" />}
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
-            <Item
-              title="All Quizzes"
-              // to="/quizzes"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+{/*     
 
             <Item
               title="Upcoming Quizzes"
@@ -163,7 +156,7 @@ const Side = (props) => {
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Typography
               variant="h6"
