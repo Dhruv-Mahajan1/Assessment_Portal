@@ -94,28 +94,15 @@ const Side = ({ name }) => {
               selected={selected}
               setSelected={setSelected}
             />
-
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Data
-            </Typography>
-            <Item
-              title="My Classwork"
-              routerLink={<Link to="/calendar" />}
-              icon={<PeopleOutlinedIcon />}
+          {/* <Item
+              title="Create Quiz"
+              to="/"
+              // icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
-              title="All Quizzes"
-              to="/quizzes"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            /> */}
+           
+            
           </Box>
         </Menu>
       </ProSidebarProvider>
