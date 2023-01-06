@@ -66,6 +66,18 @@ class getQuizScore(APIView):
         serializer = studentResponseSerializer(attemptedQuestions,many=True)
         return Response(serializer.data)
 
+class getpartQuizScore(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        try:
+            student=studentuser.objects.get(user=request.user)
+            attemptedQuestions=studentResponse.objects.filter(studentRollNo=student.studentrollno)
+            print(attemptedQuestions)
+        except studentResponse.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = studentResponseSerializer(attemptedQuestions,many=True)
+        return Response(serializer.data)
 
 class getPeerResponse(APIView):
     

@@ -53,7 +53,7 @@ const Main = () => {
          
 
             {bar === "Dashboard" && (
-              <Quizzes api="http://127.0.0.1:8000/api/student/getQuizScore/1" />
+              <Quizzes api="http://127.0.0.1:8000/api/student/getpartQuizScore" />
             )}
        
              {bar === "Self Evaluation" && (
