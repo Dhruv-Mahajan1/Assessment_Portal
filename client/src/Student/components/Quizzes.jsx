@@ -85,7 +85,7 @@ const Quizzes = (props) => {
           },
         }}
       >
-        <DataGrid checkboxSelection rows={Quiz} columns={columns} />
+        <DataGrid  rows={Quiz} columns={columns} />
       </Box>
     </Box>
   );
