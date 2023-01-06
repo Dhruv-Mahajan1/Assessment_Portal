@@ -29,36 +29,32 @@ def export(request):
     return response
  
  
-def simple_upload(request):
+def simple_upload(request,quizId):
 
-    quizId = 1
     if request.method == 'POST':
         studentResResource = studentResponseResource()
         dataset = Dataset()
         newData = request.FILES['myfile']
-
         importedData = dataset.load(newData.read(),format='xlsx')
         numberOfQuestions = len(importedData[0]) - 1
         print(numberOfQuestions)
         
-     #   baseId = Question.objects.order_by('-questionId')[0].questionId
+        baseId = Question.objects.order_by('-questionId')[0].questionId
 
         for data in importedData:
-
+            if(data[0] == None): 
+                break
             for i in range(numberOfQuestions):
-                
                 rollNumber = data[0]
                 student    = studentuser.objects.get(studentrollno = rollNumber)
                 quiz       = Quiz.objects.get(quizId = quizId)
-                question   = Question.objects.get(quizId = quizId, questionId = i + 1)
+                question   = Question.objects.get(quizId = quizId, questionId = baseId-numberOfQuestions+ i + 1)
                 response   = data[i+1]
                 selfScore  = 0
-
                 value_self = studentResponse(studentRollNo=student, quizId=quiz, questionId=question, response=response, selfScore=selfScore)
                 value_self.save() 
-
-                value_peer = peerResponse(studentRollNo=student, checkedByStudentId=i+1,quizId=quiz, questionId=question, response=response, peerScore=selfScore)
-                value_peer.save()       
+                value_peer = peerResponse(studentRollNo=student, checkedByStudentId="null",quizId=quiz, questionId=question, response=response, peerScore=selfScore)
+                value_peer.save() 
         
         #result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
 
