@@ -1,8 +1,7 @@
 # Assessment_Portal
 The project aims towards the creation of a new strategy of evaluation where the students would be able to evaluate themselves and their peers. This would enable them to understand the evaluation process in a greater detail and test them towards their honesty which would further improve the evaluation process and work towards the character building of the student.
 
-### Features
-
+## ✨ Features
 
 ```
 - Evaluation
@@ -12,6 +11,11 @@ The project aims towards the creation of a new strategy of evaluation where the 
 - Google Authentication
 - Self registration with Gmail
 ```
+
+## ✨ Demo Video
+
+https://user-images.githubusercontent.com/75497964/216232495-7c7567ac-ec0a-4f90-8008-9471228359df.mp4
+
 
 ## ✨ How to use the code
 
@@ -49,9 +53,3 @@ $ npm start
 ```
 You are good to go.
 <Br>
-
-
-
-
-
-
